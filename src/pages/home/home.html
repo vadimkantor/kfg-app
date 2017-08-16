@@ -1,14 +1,36 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      SchoolAdvisor
     </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="logout()">
+        <ion-icon name="exit"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <h2>Hallo {{ user.details.name }} aus der Klasse {{ classNo }} der Schule {{ school}} </h2>
+
+  <ion-content padding>
+    <ion-searchbar (ionInput)="onSearchInput($event)"></ion-searchbar>
+    <ion-list>
+      <ion-item-sliding *ngFor="let event of events">
+        <button ion-item (click)="showEvent(event)">
+          <h2>{{event.name}}</h2>
+          <p>{{event.date}}</p>
+        </button>
+        <ion-item-options side="left">
+          <button ion-button>
+            <ion-icon name="pulse"></ion-icon>
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+
+  </ion-content>
+
 </ion-content>
