@@ -1,41 +1,48 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {Auth, User} from '@ionic/cloud-angular';
 import {LoginPage} from '../login/login';
 import {RatePage} from '../rate/rate';
-import {FirebaseProvider} from '../../providers/firebase/firebase';
-import {FirebaseListObservable } from 'angularfire2/database';
+import {EventsProvider} from '../../providers/event/event';
+
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage implements OnInit{
+export class HomePage{
   public classNo: string = '';
   public school: string = '';
-  public events: {e: FirebaseListObservable<any>};
 
-  constructor(private navCtrl: NavController, private user: User, private auth: Auth, private fb:FirebaseProvider) {
+  public eventList: Array<any>;
+
+  constructor(private navCtrl: NavController, private user: User, private auth: Auth, private eventsProvider:EventsProvider) {
     console.log(user);
 
     this.classNo = user.data.get('classNo');
     this.school = user.data.get('school');
   }
 
-  public ngOnInit() {
-    this.fb.getEvents(this.school,this.classNo ).then((data: {e: FirebaseListObservable<any>})=>this.events=data);
+  ionViewDidEnter() {
+    this.eventsProvider.getEvents(this.school,this.classNo).on('value', snapshot => {
+      this.eventList = [];
+      snapshot.forEach( snap => {
+        this.eventList.push({
+          id: snap.key,
+          name: snap.val().name,
+          date: snap.val().date
+        });
+        return false
+      });
+    });
   }
 
-  public onSearchInput( event:string)  {
-    console.log(event);
-  };
-
-  public showEvent(event: any){
-    this.navCtrl.push(RatePage,{'eventId':event.id, 'eventName':event.name, 'eventDate':event.date})
+  goToRate(event){
+    this.navCtrl.push(RatePage, { 'eventId': event.id, 'eventDate': event.date, 'eventName': event.name });
   }
 
 
-  public logout() {
+  logout() {
     this.auth.logout();
     this.navCtrl.setRoot(LoginPage);
   }

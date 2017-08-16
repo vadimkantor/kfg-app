@@ -8,10 +8,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { RatePage } from '../pages/rate/rate';
-import { FirebaseProvider } from '../providers/firebase/firebase';
+import { EventsProvider } from '../providers/event/event';
 
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { Ionic2RatingModule } from 'ionic2-rating';
 
 const cloudSettings: CloudSettings ={
@@ -20,13 +18,7 @@ const cloudSettings: CloudSettings ={
   }
 };
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyBclD-SGEt6RHOi0iyKmvlUTx0Li67H8vA",
-  authDomain: "schooladvisor-f8834.firebaseapp.com",
-  databaseURL: "https://schooladvisor-f8834.firebaseio.com",
-  projectId: "schooladvisor-f8834",
-  storageBucket: "schooladvisor-f8834.appspot.com"
-};
+
 
 @NgModule({
   declarations: [
@@ -39,8 +31,6 @@ export const firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     CloudModule.forRoot(cloudSettings),
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule,
     Ionic2RatingModule
   ],
   bootstrap: [IonicApp],
@@ -54,7 +44,7 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    FirebaseProvider
+    EventsProvider
   ]
 })
 export class AppModule {}

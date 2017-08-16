@@ -6,7 +6,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import {Auth} from '@ionic/cloud-angular';
 
-
+import firebase from 'firebase';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,6 +15,15 @@ export class MyApp {
   rootPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public auth: Auth) {
+
+    firebase.initializeApp({
+      apiKey: "AIzaSyBclD-SGEt6RHOi0iyKmvlUTx0Li67H8vA",
+      authDomain: "schooladvisor-f8834.firebaseapp.com",
+      databaseURL: "https://schooladvisor-f8834.firebaseio.com",
+      projectId: "schooladvisor-f8834",
+      storageBucket: "schooladvisor-f8834.appspot.com"
+    });
+
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

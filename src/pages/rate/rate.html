@@ -1,19 +1,19 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{eventName}} vom {{eventDate}}</ion-title>
+    <ion-title>Bewertung</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
   <ion-list>
-    <ion-list-header>Bewerte {{eventName}} vom {{eventDate}}</ion-list-header>
-    <ion-item-sliding *ngFor="let c of criteria; let i = index; let r of myRates">
+    <ion-list-header>{{eventName}}. Datum: {{eventDate}}</ion-list-header>
+    <ion-item-sliding *ngFor="let r of rates; let i = index; trackBy: customTrackBy">
       <ion-item>
-        <h2>{{c.criterion}}</h2>
-        <h3>{{c.description}}</h3>
-        <rating [(ngModel)]="r.$value"
+        <h2>{{criteria[i].criterion}}</h2>
+        <h3>{{criteria[i].description}}</h3>
+        <rating [(ngModel)]="rates[i]"
                 readOnly="false"
                 max="5"
                 emptyStarIconName="star-outline"
@@ -26,12 +26,4 @@
     </ion-item-sliding>
   </ion-list>
   <button ion-button full (click)="saveRates()">Speichern</button>
-  <ion-list>
-
-    <ion-item-sliding *ngFor="let c of criteria; let r of myRates">
-      <ion-item>
-        <h2>{{r.$key}} : {{r.$value}}</h2>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>
 </ion-content>
