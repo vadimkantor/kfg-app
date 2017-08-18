@@ -10,7 +10,7 @@
   <ion-list>
     <ion-list-header>{{eventName}}. Datum: {{eventDate}}</ion-list-header>
     <ion-item-sliding *ngFor="let r of rates; let i = index; trackBy: customTrackBy">
-      <ion-item>
+      <ion-item text-wrap>
         <h2>{{criteria[i].criterion}}</h2>
         <h3>{{criteria[i].description}}</h3>
         <rating [(ngModel)]="rates[i]"
@@ -25,5 +25,5 @@
       </ion-item>
     </ion-item-sliding>
   </ion-list>
-  <button ion-button full (click)="saveRates()">Speichern</button>
+  <button *ngIf="eventReadOnly!==true" ion-button round full (click)="saveRates()">Senden</button>
 </ion-content>

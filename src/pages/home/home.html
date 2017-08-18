@@ -15,25 +15,31 @@
   <p>Hallo, <strong>{{ user.details.name }}</strong>!</p>
 
   <ion-list>
-    <ion-item *ngFor="let event of eventList">
+    <ion-item *ngFor="let event of eventList" text-wrap>
       <ion-card>
         <ion-card-header>
           <strong>{{event?.name}}</strong>
           <p>Klasse: <strong>{{classNo}}</strong></p>
           <p>Datum: <strong>{{event?.date}}</strong></p>
           <p>Bewertung bis: <strong>{{event?.dateTo}}</strong></p>
+          <div *ngIf="isRated(event)===true">Status: bewertet
+            <ion-icon name="md-checkbox-outline"></ion-icon>
+          </div>
+          <div *ngIf="isRated(event)!==true">Status: noch nicht bewertet</div>
         </ion-card-header>
         <ion-card-content>
-          <button ion-button color="primary" block (click)="goToRate(event)"
-                  [disabled]="!isRateable(event)">
+          <button *ngIf="isRated(event)===true" ion-button color="primary" round block (click)="goToRate(event)"
+          >
+            Ansehen
+          </button>
+          <button *ngIf="isRated(event)!==true" ion-button color="primary" round block (click)="goToRate(event)"
+          >
             Bewerten
           </button>
-          <button ion-button color="secondary" block (click)="goToRate(event)"
+          <button ion-button color="secondary" round block (click)="goToResult(event)"
                   [disabled]="!isResulatable(event)">
             Ergebnisse
           </button>
-
-
         </ion-card-content>
       </ion-card>
     </ion-item>

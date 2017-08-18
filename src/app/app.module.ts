@@ -8,9 +8,12 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { RatePage } from '../pages/rate/rate';
-import { EventsProvider } from '../providers/event/event';
+import {ResultPage} from '../pages/result/result';
+import { EventsProvider } from '../providers/events/events';
 
 import { Ionic2RatingModule } from 'ionic2-rating';
+import { RatesProvider } from '../providers/rates/rates';
+
 
 const cloudSettings: CloudSettings ={
   'core':{
@@ -19,13 +22,13 @@ const cloudSettings: CloudSettings ={
 };
 
 
-
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     LoginPage,
-    RatePage
+    RatePage,
+    ResultPage
   ],
   imports: [
     BrowserModule,
@@ -38,13 +41,15 @@ const cloudSettings: CloudSettings ={
     MyApp,
     HomePage,
     LoginPage,
-    RatePage
+    RatePage,
+    ResultPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    EventsProvider
+    EventsProvider,
+    RatesProvider
   ]
 })
 export class AppModule {}
