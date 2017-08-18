@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavParams} from 'ionic-angular';
+import {IonicPage, NavParams, NavController} from 'ionic-angular';
 import {User} from '@ionic/cloud-angular';
 import {EventsProvider} from '../../providers/event/event';
+import {HomePage} from '../home/home';
 
 @IonicPage({
   name: 'rate',
@@ -19,9 +20,7 @@ export class RatePage  {
   private rates: Array<number>;
 
 
-
-
-  constructor(private navParams: NavParams, private user: User, private eventsProvider: EventsProvider) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private user: User, private eventsProvider: EventsProvider) {
     this.eventId = this.navParams.get("eventId");
     this.eventDate = this.navParams.get("eventDate");
     this.eventName = this.navParams.get("eventName");
@@ -69,7 +68,7 @@ export class RatePage  {
       this.user.data.get('classNo'),
       this.user.id, this.eventId,
       this.rates);
-
+    this.navCtrl.setRoot(HomePage);
   }
 
 
