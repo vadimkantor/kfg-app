@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavParams, NavController} from 'ionic-angular';
-import {User} from '@ionic/cloud-angular';
 import {RatesProvider} from '../../providers/rates/rates';
 import {HomePage} from '../home/home';
-
+import {AuthProvider} from '../../providers/auth/auth';
 
 @IonicPage({
   name: 'rate',
@@ -22,22 +21,32 @@ export class RatePage {
   private criteria: Array<any>;
   private rates: Array<number>;
   private currentRates: Array<number>;
+  private userId: string = '';
+  private classNo: string = '';
+  private school: string = '';
 
-
-  constructor(private navCtrl: NavController, private navParams: NavParams, private user: User,
+  constructor(private navCtrl: NavController,
+              private navParams: NavParams,
+              private auth: AuthProvider,
               private ratesProvider: RatesProvider) {
     this.eventId = this.navParams.get("eventId");
     this.eventDate = this.navParams.get("eventDate");
     this.eventName = this.navParams.get("eventName");
-    this.eventReadOnly=this.navParams.get("eventReadOnly");
+    this.eventReadOnly = this.navParams.get("eventReadOnly");
+    auth.getUserData().on('value', snapshot => {
+      this.userId = snapshot.val().id;
+      this.classNo = snapshot.val().classNo;
+      this.school = snapshot.val().school;
+    });
   }
 
   ionViewDidEnter() {
 
     this.rates = [];
     this.currentRates = [];
-    this.criteria = [];
+
     this.ratesProvider.getCriteria().on('value', snapshot => {
+      this.criteria = [];
       snapshot.forEach(snap => {
         this.criteria.push({
           id: snap.key,
@@ -51,10 +60,8 @@ export class RatePage {
     });
 
 
-    this.ratesProvider.getUserRates(this.user.data.get('school'),
-      this.user.data.get('classNo'),
-      this.user.id, this.eventId).on('value', snapshot => {
-
+    this.ratesProvider.getUserRates(this.school,
+      this.classNo, this.userId, this.eventId).on('value', snapshot => {
       let i: number = 0;
       snapshot.forEach(snap => {
         this.rates.splice(i, 1,
@@ -66,9 +73,9 @@ export class RatePage {
     });
 
 
-
-    this.ratesProvider.getCurrentRates(this.user.data.get('school'),
-      this.user.data.get('classNo'),
+    this.ratesProvider.getCurrentRates(
+      this.school,
+      this.classNo,
       this.eventId).on('value', snapshot => {
 
       let i: number = 0;
@@ -88,26 +95,26 @@ export class RatePage {
 
   saveRates() {
     this.ratesProvider.saveUserRates(
-      this.user.data.get('school'),
-      this.user.data.get('classNo'),
-      this.user.id, this.eventId,
+      this.school,
+      this.classNo,
+      this.userId,
+      this.eventId,
       this.rates);
 
-    for(let i=0; i<this.rates.length; i++){
+    for (let i = 0; i < this.rates.length; i++) {
 
-       if( this.currentRates[i] === 0){
-         this.currentRates[i]= this.rates[i];
-       }
+      if (this.currentRates[i] === 0) {
+        this.currentRates[i] = this.rates[i];
+      }
 
-      this.currentRates[i] = ((this.currentRates[i] + this.rates[i])/2.0);
+      this.currentRates[i] = ((this.currentRates[i] + this.rates[i]) / 2.0);
     }
 
     this.ratesProvider.saveCurrentRates(
-      this.user.data.get('school'),
-      this.user.data.get('classNo'),
+      this.school,
+      this.classNo,
       this.eventId,
       this.currentRates);
-
 
     this.navCtrl.setRoot(HomePage);
   }

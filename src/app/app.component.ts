@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
+import {MainPage} from "../pages/main/main";
 import {Auth} from '@ionic/cloud-angular';
 
 import firebase from 'firebase';
@@ -31,7 +31,7 @@ export class MyApp {
       splashScreen.hide();
 
       if(this.auth.isAuthenticated()){
-        this.rootPage=HomePage;
+        this.rootPage=MainPage;
       }else{
         this.rootPage=LoginPage;
       }

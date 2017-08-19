@@ -1,26 +1,28 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {Auth, User} from '@ionic/cloud-angular';
-import {LoginPage} from '../login/login';
 import {RatePage} from '../rate/rate';
 import {ResultPage} from '../result/result';
 import {EventsProvider} from '../../providers/events/events';
 import {RatesProvider} from '../../providers/rates/rates';
+import {AuthProvider} from '../../providers/auth/auth';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  public classNo: string = '';
-  public school: string = '';
-  public eventList: Array<any>;
+  private userId: string ='';
+  private classNo: string = '';
+  private school: string = '';
+  private eventList: Array<any>;
 
-  constructor(private navCtrl: NavController, private user: User, private auth: Auth, private eventsProvider: EventsProvider,
-              private ratesProvider: RatesProvider) {
-
-    this.classNo = user.data.get('classNo');
-    this.school = user.data.get('school');
+  constructor(private navCtrl: NavController, private eventsProvider: EventsProvider,
+              private ratesProvider: RatesProvider, private auth:AuthProvider) {
+    auth.getUserData().on('value',snapshot => {
+      this.userId = snapshot.val().id;
+      this.classNo=snapshot.val().classNo;
+      this.school=snapshot.val().school;
+    });
   }
 
   ionViewDidEnter() {
@@ -50,7 +52,6 @@ export class HomePage {
   }
 
   goToResult(event) {
-
     this.navCtrl.push(ResultPage, {
       'eventId': event.id,
       'eventName': event.name,
@@ -61,7 +62,7 @@ export class HomePage {
 
   isRated(event) {
     let exists = false;
-    this.ratesProvider.getUserRates(this.school, this.classNo, this.user.id, event.id).on('value', snapshot => {
+    this.ratesProvider.getUserRates(this.school, this.classNo, this.userId, event.id).on('value', snapshot => {
       if (snapshot.val() !== null){
         exists=true;
       }
@@ -81,7 +82,7 @@ export class HomePage {
     return curDate >= eventDate && curDate < eventDateTo;
   }
 
-  isResulatable(event) {
+  isResultable(event) {
     let curDate = new Date();
     if (!event.dateTo || typeof event.dateTo === 'undefined') {
       return false;
@@ -91,10 +92,6 @@ export class HomePage {
     return curDate >= eventDateTo;
   }
 
-  logout() {
-    this.auth.logout();
-    this.navCtrl.setRoot(LoginPage);
-  }
 }
 
 

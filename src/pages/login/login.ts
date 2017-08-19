@@ -1,128 +1,73 @@
-import {Component} from '@angular/core';
-import {IonicPage, AlertController, NavController ,LoadingController} from 'ionic-angular';
-import {Auth, User, UserDetails, IDetailedError} from '@ionic/cloud-angular';
-import {HomePage} from '../home/home';
+import { Component } from '@angular/core';
+import {
+  IonicPage,
+  Loading,
+  LoadingController,
+  NavController,
+  AlertController } from 'ionic-angular';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { EmailValidator } from '../../validators/email';
+import { AuthProvider } from '../../providers/auth/auth';
+import { MainPage } from '../main/main';
 
-@IonicPage()
+@IonicPage({
+  name: 'login'
+})
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  showLogin: boolean = true;
-  email: string = '';
-  password: string = '';
-  name: string = '';
-  school: string = '';
-  classNo: string = '';
+  public loginForm: FormGroup;
+  loading: Loading;
 
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController,
+              public alertCtrl: AlertController, public authProvider: AuthProvider,
+              public formBuilder: FormBuilder) {
 
-  constructor(private navCtrl: NavController, private auth: Auth, private user: User, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
+    this.loginForm = formBuilder.group({
+      email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
+      password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+    });
   }
 
-
-  /*
-    for both of these, if the right form is showing, process the form,
-    otherwise show it
-    */
-  doLogin() {
-    if (this.showLogin) {
-      console.log('process login');
-
-      if (this.email === '' || this.password === '') {
-        let alert = this.alertCtrl.create({
-          title: 'Anmeldungsfehler',
-          subTitle: 'Alle Felder sind erforderlich!',
-          buttons: ['OK']
-        });
-        alert.present();
-        return;
-      }
-
-      let loader = this.loadingCtrl.create({
-        content: "Anmeldung..."
-      });
-      loader.present();
-
-      this.auth.login('basic', {'email': this.email, 'password': this.password}).then(() => {
-        console.log('ok i guess?');
-        loader.dismissAll();
-        this.navCtrl.setRoot(HomePage);
-      }, (err) => {
-        loader.dismissAll();
-        console.log(err.message);
-
-        let errors = '';
-        if (err.message === 'UNPROCESSABLE ENTITY') errors += 'Email ist nicht korrekt.<br/>';
-        if (err.message === 'UNAUTHORIZED') errors += 'Kennwort ist erfolrderlich.<br/>';
-
-        let alert = this.alertCtrl.create({
-          title: 'Login Fehler',
-          subTitle: errors,
-          buttons: ['OK']
-        });
-        alert.present();
-      });
+  loginUser(): void {
+    if (!this.loginForm.valid){
+      console.log(this.loginForm.value);
     } else {
-      this.showLogin = true;
+      this.authProvider.loginUser(this.loginForm.value.email, this.loginForm.value.password)
+        .then( authData => {
+          this.loading.dismiss().then( () => {
+            this.navCtrl.setRoot(MainPage);
+          });
+        }, error => {
+          this.loading.dismiss().then( () => {
+            let alert = this.alertCtrl.create({
+              message: error.message,
+              buttons: [
+                {
+                  text: "Ok",
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+          });
+        });
+
+      this.loading = this.loadingCtrl.create();
+      this.loading.present();
     }
   }
 
-  doRegister() {
-    if (!this.showLogin) {
-      console.log('process register');
-
-      /*
-      do our own initial validation
-      */
-      if (this.name === '' || this.email === '' || this.password === '' || this.school === '' ||  this.classNo === '') {
-        let alert = this.alertCtrl.create({
-          title: 'Anmeldungsfehler',
-          subTitle: 'Alle Felder sind erforderlich!',
-          buttons: ['OK']
-        });
-        alert.present();
-        return;
-      }
-      let userSchoolData = {'school': this.school, 'classNo': this.classNo};
-      let details: UserDetails = {'email': this.email, 'password': this.password, 'name': this.name, 'custom': userSchoolData};
-      console.log(details);
-
-      let loader = this.loadingCtrl.create({
-        content: "Registrierung..."
-      });
-      loader.present();
-
-      this.auth.signup(details).then(() => {
-        console.log('ok signup');
-        this.auth.login('basic', {'email': details.email, 'password': details.password}).then(() => {
-          loader.dismissAll();
-          this.navCtrl.setRoot(HomePage);
-        });
-
-      }, (err: IDetailedError<string[]>) => {
-        loader.dismissAll();
-        let errors = '';
-        for (let e of err.details) {
-          console.log(e);
-          if (e === 'required_email') errors += 'Email ist erforderlich.<br/>';
-          if (e === 'required_password') errors += 'Kennwort ist erforderlich.<br/>';
-          if (e === 'conflict_email') errors += 'Ein Benutzer mit dieser Email Adresse existiert bereits.<br/>';
-          //don't need to worry about conflict_username
-          if (e === 'invalid_email') errors += 'Ihre Email ist nicht korrekt.';
-        }
-        let alert = this.alertCtrl.create({
-          title: 'Registrierungsfehler',
-          subTitle: errors,
-          buttons: ['OK']
-        });
-        alert.present();
-      });
-
-    } else {
-      this.showLogin = false;
-    }
+  goToSignup(): void {
+    this.navCtrl.push('signup');
   }
+
+  goToResetPassword(): void {
+    this.navCtrl.push('reset-password');
+  }
+
 }
 
 

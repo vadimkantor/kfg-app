@@ -1,49 +1,47 @@
-
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Anmelden</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>
+      Anmeldung
+    </ion-title>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content padding>
 
-  <div *ngIf="showLogin">
+  <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
+
     <ion-item>
-      <ion-input type="email" placeholder="Email" [(ngModel)]="email"></ion-input>
+      <ion-label stacked>Email</ion-label>
+      <ion-input formControlName="email" type="email" placeholder="Deine Email Adresse"
+                 [class.invalid]="!loginForm.controls.email.valid && loginForm.controls.email.dirty"></ion-input>
+    </ion-item>
+    <ion-item class="error-message"
+              *ngIf="!loginForm.controls.email.valid  && loginForm.controls.email.dirty">
+      <p>Gib eine valide Email Addresse ein</p>
     </ion-item>
 
     <ion-item>
-      <ion-input type="password" placeholder="Kennwort" [(ngModel)]="password"></ion-input>
+      <ion-label stacked>Kennwort</ion-label>
+      <ion-input formControlName="password" type="password" placeholder="Dein Kennwort"
+                 [class.invalid]="!loginForm.controls.password.valid && loginForm.controls.password.dirty"></ion-input>
     </ion-item>
-  </div>
-
-  <div *ngIf="!showLogin">
-
-    <ion-item>
-      <ion-input type="text" placeholder="Name" [(ngModel)]="name"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input type="text" placeholder="Schule" [(ngModel)]="school"></ion-input>
+    <ion-item class="error-message"
+              *ngIf="!loginForm.controls.password.valid  && loginForm.controls.password.dirty">
+      <p>Das Kennwort muss mindestens 6 Zeichen haben</p>
     </ion-item>
 
-    <ion-item>
-      <ion-input type="text" placeholder="Klasse" [(ngModel)]="classNo"></ion-input>
-    </ion-item>
+    <button ion-button block type="submit" [disabled]="!loginForm.valid">
+      Anmelden
+    </button>
 
-    <ion-item>
-      <ion-input type="email" placeholder="Email" [(ngModel)]="email"></ion-input>
-    </ion-item>
+  </form>
 
-    <ion-item>
-      <ion-input type="password" placeholder="Kennwort" [(ngModel)]="password"></ion-input>
-    </ion-item>
-  </div>
+  <button ion-button block clear (click)="goToSignup()">
+    Registrieren
+  </button>
 
-  <button ion-button color="primary" full (click)="doLogin()">Login</button>
-  <button ion-button color="primary" full (click)="doRegister()">Register</button>
+  <button ion-button block clear (click)="goToResetPassword()">
+    Das Kennwort vergessen
+  </button>
 
 </ion-content>

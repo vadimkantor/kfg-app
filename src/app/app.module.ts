@@ -13,6 +13,8 @@ import { EventsProvider } from '../providers/events/events';
 
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { RatesProvider } from '../providers/rates/rates';
+import {MainPage} from "../pages/main/main";
+import { AuthProvider } from '../providers/auth/auth';
 
 
 const cloudSettings: CloudSettings ={
@@ -25,6 +27,7 @@ const cloudSettings: CloudSettings ={
 @NgModule({
   declarations: [
     MyApp,
+    MainPage,
     HomePage,
     LoginPage,
     RatePage,
@@ -39,6 +42,7 @@ const cloudSettings: CloudSettings ={
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    MainPage,
     HomePage,
     LoginPage,
     RatePage,
@@ -49,7 +53,8 @@ const cloudSettings: CloudSettings ={
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     EventsProvider,
-    RatesProvider
+    RatesProvider,
+    AuthProvider
   ]
 })
 export class AppModule {}

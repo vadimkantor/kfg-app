@@ -1,19 +1,13 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      SchoolAdvisor
+      Bewertungen
     </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="logout()">
-        <ion-icon name="exit"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <p>Hallo, <strong>{{ user.details.name }}</strong>!</p>
 
+<ion-content padding>
   <ion-list>
     <ion-item *ngFor="let event of eventList" text-wrap>
       <ion-card>
@@ -32,12 +26,13 @@
           >
             Ansehen
           </button>
-          <button *ngIf="isRated(event)!==true" ion-button color="primary" round block (click)="goToRate(event)"
+          <button *ngIf="isRated(event)!==true" [disabled]="!isRateable(event)" ion-button color="primary" round block
+                  (click)="goToRate(event)"
           >
             Bewerten
           </button>
           <button ion-button color="secondary" round block (click)="goToResult(event)"
-                  [disabled]="!isResulatable(event)">
+                  [disabled]="!isResultable(event)">
             Ergebnisse
           </button>
         </ion-card-content>
@@ -48,3 +43,4 @@
 
 
 </ion-content>
+
