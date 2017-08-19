@@ -15,6 +15,8 @@ import { Ionic2RatingModule } from 'ionic2-rating';
 import { RatesProvider } from '../providers/rates/rates';
 import {MainPage} from "../pages/main/main";
 import { AuthProvider } from '../providers/auth/auth';
+import {ProfilePage} from "../pages/profile/profile";
+import {ProfileProvider} from "../providers/profile/profile";
 
 
 const cloudSettings: CloudSettings ={
@@ -31,7 +33,8 @@ const cloudSettings: CloudSettings ={
     HomePage,
     LoginPage,
     RatePage,
-    ResultPage
+    ResultPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ const cloudSettings: CloudSettings ={
     HomePage,
     LoginPage,
     RatePage,
-    ResultPage
+    ResultPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,
@@ -54,7 +58,8 @@ const cloudSettings: CloudSettings ={
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     EventsProvider,
     RatesProvider,
-    AuthProvider
+    AuthProvider,
+    ProfileProvider
   ]
 })
 export class AppModule {}

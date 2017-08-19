@@ -33,14 +33,15 @@ export class RatePage {
     this.eventDate = this.navParams.get("eventDate");
     this.eventName = this.navParams.get("eventName");
     this.eventReadOnly = this.navParams.get("eventReadOnly");
-    auth.getUserData().on('value', snapshot => {
+
+  }
+
+  ionViewDidEnter() {
+    this.auth.getUserData().on('value', snapshot => {
       this.userId = snapshot.val().id;
       this.classNo = snapshot.val().classNo;
       this.school = snapshot.val().school;
     });
-  }
-
-  ionViewDidEnter() {
 
     this.rates = [];
     this.currentRates = [];
