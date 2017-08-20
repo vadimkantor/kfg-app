@@ -5,10 +5,13 @@ import {ResultPage} from '../result/result';
 import {EventsProvider} from '../../providers/events/events';
 import {RatesProvider} from '../../providers/rates/rates';
 import {AuthProvider} from '../../providers/auth/auth';
+import {DatePipe} from '@angular/common';
+import {ReversePipe} from 'ngx-pipes/src/app/pipes/array/reverse';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  providers: [ReversePipe]
 })
 export class HomePage {
   private userId: string ='';
@@ -17,16 +20,20 @@ export class HomePage {
   private eventList: Array<any>;
 
   constructor(private navCtrl: NavController, private eventsProvider: EventsProvider,
-              private ratesProvider: RatesProvider, private auth:AuthProvider) {
-    auth.getUserData().on('value',snapshot => {
+              private ratesProvider: RatesProvider, private auth:AuthProvider,
+              private datepipe: DatePipe, private reversePipe: ReversePipe) {
+  }
+
+  ionViewDidEnter() {
+
+    this.auth.getUserData().on('value',snapshot => {
       this.userId = snapshot.val().id;
       this.classNo=snapshot.val().classNo;
       this.school=snapshot.val().school;
     });
-  }
 
-  ionViewDidEnter() {
-    this.eventsProvider.getEvents(this.school, this.classNo).on('value', snapshot => {
+    this.eventsProvider.getEvents(this.school, this.classNo)
+      .on('value', snapshot => {
       this.eventList = [];
       snapshot.forEach(snap => {
         if(snap.val().hidden!==true) {
@@ -77,10 +84,8 @@ export class HomePage {
     if (!event.date || typeof event.date === 'undefined' || !event.dateTo || typeof event.dateTo === 'undefined') {
       return false;
     }
-    let eventDateParts = event.date.toString().split('.');
-    let eventDate = new Date(eventDateParts[2], eventDateParts[1] - 1, eventDateParts[0]);
-    let eventDateToParts = event.dateTo.toString().split('.');
-    let eventDateTo = new Date(eventDateToParts[2], eventDateToParts[1] - 1, eventDateToParts[0]);
+    let eventDate= new Date(event.date);
+    let eventDateTo= new Date(event.dateTo);
     return curDate >= eventDate && curDate < eventDateTo;
   }
 
@@ -89,8 +94,7 @@ export class HomePage {
     if (!event.dateTo || typeof event.dateTo === 'undefined') {
       return false;
     }
-    let eventDateToParts = event.dateTo.toString().split('.');
-    let eventDateTo = new Date(eventDateToParts[2], eventDateToParts[1] - 1, eventDateToParts[0]);
+    let eventDateTo= new Date(event.dateTo);
     return curDate >= eventDateTo;
   }
 
