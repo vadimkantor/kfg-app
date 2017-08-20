@@ -29,12 +29,14 @@ export class HomePage {
     this.eventsProvider.getEvents(this.school, this.classNo).on('value', snapshot => {
       this.eventList = [];
       snapshot.forEach(snap => {
-        this.eventList.push({
-          id: snap.key,
-          name: snap.val().name,
-          date: snap.val().date,
-          dateTo: snap.val().dateTo
-        });
+        if(snap.val().hidden!==true) {
+          this.eventList.push({
+            id: snap.key,
+            name: snap.val().name,
+            date: snap.val().date,
+            dateTo: snap.val().dateTo
+          })
+        };
         return false
       });
     });

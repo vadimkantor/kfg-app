@@ -16,6 +16,7 @@ import { RatesProvider } from '../providers/rates/rates';
 import {MainPage} from "../pages/main/main";
 import { AuthProvider } from '../providers/auth/auth';
 import {ProfilePage} from "../pages/profile/profile";
+import {AdminPage} from "../pages/admin/admin";
 import {ProfileProvider} from "../providers/profile/profile";
 
 
@@ -34,7 +35,8 @@ const cloudSettings: CloudSettings ={
     LoginPage,
     RatePage,
     ResultPage,
-    ProfilePage
+    ProfilePage,
+    AdminPage
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,8 @@ const cloudSettings: CloudSettings ={
     LoginPage,
     RatePage,
     ResultPage,
-    ProfilePage
+    ProfilePage,
+    AdminPage
   ],
   providers: [
     StatusBar,
