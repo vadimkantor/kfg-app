@@ -10,6 +10,7 @@ import { LoginPage } from '../pages/login/login';
 import { RatePage } from '../pages/rate/rate';
 import {ResultPage} from '../pages/result/result';
 import { EventsProvider } from '../providers/events/events';
+import {SubjectsProvider} from '../providers/subjects/subjects';
 import {DatePipe} from '@angular/common';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { RatesProvider } from '../providers/rates/rates';
@@ -41,6 +42,7 @@ const cloudSettings: CloudSettings ={
     AdminPage,
     CreateEventPage,
     ChangeEventPage
+
   ],
   imports: [
     BrowserModule,
@@ -70,7 +72,8 @@ const cloudSettings: CloudSettings ={
     RatesProvider,
     AuthProvider,
     ProfileProvider,
-    DatePipe
+    DatePipe,
+    SubjectsProvider
   ]
 })
 export class AppModule {}

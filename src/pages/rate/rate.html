@@ -9,11 +9,11 @@
 <ion-content padding>
   <ion-list>
     <ion-list-header>{{eventName}}. Datum: {{eventDate}}</ion-list-header>
-    <ion-item-sliding *ngFor="let c of criteria; let i = index; trackBy: customTrackBy">
+    <ion-item-sliding *ngFor="let c of criteriaWithRates">
       <ion-item text-wrap>
         <h2>{{c.criterion}}</h2>
         <h3>{{c.description}}</h3>
-        <rating [(ngModel)]="rates[i]"
+        <rating [(ngModel)]="c.rate"
                 readOnly="false"
                 max="5"
                 emptyStarIconName="star-outline"

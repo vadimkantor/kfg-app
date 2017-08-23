@@ -4,6 +4,7 @@ import {RatesProvider} from '../../providers/rates/rates';
 import {HomePage} from '../home/home';
 import {AuthProvider} from '../../providers/auth/auth';
 
+
 @IonicPage({
   name: 'rate',
   segment: 'rate/:eventId'
@@ -18,9 +19,8 @@ export class RatePage {
   private eventName: string = '';
   private eventDate: string = '';
   private eventReadOnly: boolean;
-  private criteria: Array<any>;
-  private rates: Array<number>;
-  private currentRates: Array<number>;
+  private criteriaWithRates: Array<any>;
+  private currentRates: Array<any>;
   private userId: string = '';
   private classNo: string = '';
   private school: string = '';
@@ -43,33 +43,35 @@ export class RatePage {
       this.school = snapshot.val().school;
     });
 
-    this.rates = [];
+
     this.currentRates = [];
+    this.criteriaWithRates = [];
 
-    this.ratesProvider.getCriteria().on('value', snapshot => {
-      this.criteria = [];
-      snapshot.forEach(snap => {
-        this.criteria.push({
-          id: snap.key,
-          criterion: snap.val().criterion,
-          description: snap.val().description
+    this.ratesProvider.getCriteria(this.school).on('value', criteriaSnapshot => {
+
+      criteriaSnapshot.forEach(criteriaSnap => {
+        let rateVal: number = 0;
+        let subjectName: string;
+        this.ratesProvider.getUserRates(this.school,
+          this.classNo, this.userId, this.eventId).on('value', ratesSnapshot => {
+          ratesSnapshot.forEach(ratesSnap => {
+              if (ratesSnap.key === criteriaSnap.key) {
+                rateVal = ratesSnap.val().rate;
+              }
+              return false;
+            }
+          )
         });
-        this.rates.push(0);
-        this.currentRates.push(0);
-        return false
-      });
-    });
 
+        this.criteriaWithRates.push({
+          critId: criteriaSnap.key,
+          criterion: criteriaSnap.val().criterion,
+          description: criteriaSnap.val().description,
+          rate: rateVal,
+          subject: this.eventName
+        });
 
-    this.ratesProvider.getUserRates(this.school,
-      this.classNo, this.userId, this.eventId).on('value', snapshot => {
-      let i: number = 0;
-      snapshot.forEach(snap => {
-        this.rates.splice(i, 1,
-          snap.val()
-        );
-        i++;
-        return false
+        return false;
       });
     });
 
@@ -78,13 +80,10 @@ export class RatePage {
       this.school,
       this.classNo,
       this.eventId).on('value', snapshot => {
-
-      let i: number = 0;
       snapshot.forEach(snap => {
-        this.currentRates.splice(i, 1,
+        this.currentRates.push(
           snap.val()
         );
-        i++;
         return false
       });
     });
@@ -100,25 +99,30 @@ export class RatePage {
       this.classNo,
       this.userId,
       this.eventId,
-      this.rates);
+      this.criteriaWithRates
+    );
 
-    for (let i = 0; i < this.rates.length; i++) {
-
-      if (this.currentRates[i] === 0) {
-        this.currentRates[i] = this.rates[i];
+    for (let i = 0; i < this.criteriaWithRates.length; i++) {
+      let curRate = 0;
+      let count = 0;
+      if (typeof this.currentRates[i] === 'undefined') {
+        curRate = this.criteriaWithRates[i].rate;
+      } else {
+        curRate = this.currentRates[i].rate;
+        count = this.currentRates[i].count;
       }
-
-      this.currentRates[i] = ((this.currentRates[i] + this.rates[i]) / 2.0);
+      this.currentRates[i] = this.criteriaWithRates[i];
+      this.currentRates[i].rate = ((curRate + this.criteriaWithRates[i].rate) / 2.0);
+      this.currentRates[i].count = count + 1;
     }
 
     this.ratesProvider.saveCurrentRates(
       this.school,
       this.classNo,
       this.eventId,
-      this.currentRates);
+      this.criteriaWithRates);
 
     this.navCtrl.setRoot(HomePage);
   }
-
 
 }

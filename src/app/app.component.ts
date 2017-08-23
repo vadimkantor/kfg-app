@@ -16,12 +16,24 @@ export class MyApp {
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public auth: Auth) {
 
+    /*
+     * test environment
+
     firebase.initializeApp({
       apiKey: "AIzaSyBclD-SGEt6RHOi0iyKmvlUTx0Li67H8vA",
       authDomain: "schooladvisor-f8834.firebaseapp.com",
       databaseURL: "https://schooladvisor-f8834.firebaseio.com",
       projectId: "schooladvisor-f8834",
       storageBucket: "schooladvisor-f8834.appspot.com"
+    });
+    */
+
+    firebase.initializeApp({
+      apiKey: "AIzaSyDHm8_PhwCJKfmvuEFouVU-PSLEoS-0egw",
+      authDomain: "schooladvisor-prod.firebaseapp.com",
+      databaseURL: "https://schooladvisor-prod.firebaseio.com",
+      projectId: "schooladvisor-prod",
+      storageBucket: "schooladvisor-prod.appspot.com"
     });
 
     platform.ready().then(() => {
