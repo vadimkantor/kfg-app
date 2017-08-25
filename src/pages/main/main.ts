@@ -6,6 +6,7 @@ import {HomePage} from "../home/home";
 import {ProfilePage} from "../profile/profile";
 import {AuthProvider} from '../../providers/auth/auth';
 import {AdminPage} from "../admin/admin";
+import {SlideboxProvider} from "../../providers/slidebox/slideprovider";
 
 @IonicPage()
 @Component({
@@ -14,36 +15,33 @@ import {AdminPage} from "../admin/admin";
 })
 export class MainPage {
   private userName: string = '';
-  private isSchoolAdmin: boolean=false;
-  private isClassAdmin: boolean=false;
+  private school: string = '';
+  private isSchoolAdmin: boolean = false;
+  private isClassAdmin: boolean = false;
+  private slides: Array<any>;
 
-  slides = [
-    {
-      title: "Wilkommen bei School-Advisor!",
-      description: "Diese Anleitung hilft Dir bei der Bedingung und zeigt Dir wir Du Klassenarbeiten bewerten und Dir die Ergebnisse ansehen kannst",
-      image: "assets/img/schooladvisor-slidebox-img-1.png",
-    },
-    {
-      title: "Was ist School-Advisor?",
-      description: "<b>SchoolAdvisor</b> ist ein...",
-      image: "assets/img/schooladvisor-slidebox-img-1.png",
-    },
-    {
-      title: "Wie bewerte ich eine Klassenarbeit?",
-      description: "In <b>School-Advisor</b> kannst Du ...",
-      image: "assets/img/schooladvisor-slidebox-img-1.png",
-    }
-  ];
 
-  constructor(private navCtrl: NavController, private auth: AuthProvider) {
+  constructor(private navCtrl: NavController, private auth: AuthProvider, private slideboxProvider: SlideboxProvider) {
   }
 
   ionViewDidEnter() {
-    this.auth.getUserData().on('value',snapshot => {
+    this.auth.getUserData().on('value', snapshot => {
       this.userName = snapshot.val().name;
-      this.isSchoolAdmin=snapshot.val().isSchoolAdmin,
-        this.isClassAdmin=snapshot.val().isClassAdmin;
+      this.isSchoolAdmin = snapshot.val().isSchoolAdmin;
+      this.isClassAdmin = snapshot.val().isClassAdmin;
+      this.school = snapshot.val().school;
     });
+
+    this.slideboxProvider.getSlidebox(this.school)
+      .on('value', snapshot => {
+        this.slides = [];
+        snapshot.forEach(snap => {
+          this.slides.push(
+            snap.val()
+          );
+          return false
+        });
+      });
   }
 
   logout() {
@@ -55,18 +53,19 @@ export class MainPage {
     this.navCtrl.push(HomePage);
   }
 
-  goToProfile(){
+  goToProfile() {
     this.navCtrl.push(ProfilePage);
   }
 
-  isUserSchoolAdmin(){
+  isUserSchoolAdmin() {
     return this.isSchoolAdmin;
   }
 
-  isUserClassAdmin(){
+  isUserClassAdmin() {
     return this.isClassAdmin;
   }
-  goToAdmin(){
+
+  goToAdmin() {
     this.navCtrl.push(AdminPage);
   }
 }

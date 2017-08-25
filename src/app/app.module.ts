@@ -23,6 +23,7 @@ import { CreateEventPage } from '../pages/create-event/create-event';
 import { NgPipesModule } from 'ngx-pipes';
 import { ChangeEventPage } from '../pages/change-event/change-event';
 import { AppErrorHandler } from '../errors/appErrorHandler';
+import { SlideboxProvider } from '../providers/slidebox/slideprovider';
 
 const cloudSettings: CloudSettings ={
   'core':{
@@ -74,7 +75,8 @@ const cloudSettings: CloudSettings ={
     AuthProvider,
     ProfileProvider,
     DatePipe,
-    SubjectsProvider
+    SubjectsProvider,
+    SlideboxProvider
   ]
 })
 export class AppModule {}
