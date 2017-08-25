@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      School-Advisor
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <p>Hallo, <strong>{{ userName }}</strong>!</p>
+
+
+  <ion-slides pager>
+    <ion-slide *ngFor="let slide of slides">
+      <ion-toolbar>
+        <ion-buttons end>
+          <button ion-button (click)="goToHome()" color="primary">Überspringen</button>
+        </ion-buttons>
+      </ion-toolbar>
+      <img [src]="slide.image" class="slide-image"/>
+      <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+      <p [innerHTML]="slide.description"></p>
+    </ion-slide>
+    <ion-slide>
+      <ion-toolbar>
+      </ion-toolbar>
+      <img src="assets/img/schooladvisor-slidebox-img-1.png" class="slide-image"/>
+      <h2 class="slide-title">Bereit zu bewerten?</h2>
+      <button ion-button large clear icon-end color="primary" (click)="goToHome()">
+        Weiter
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-slide>
+  </ion-slides>
+
+
+</ion-content>
+
+<ion-menu [content]="mycontent" type="overlay">
+  <ion-content>
+    <ion-list>
+      <button ion-item (click)="goToHome()">
+        <ion-icon name="star-half"></ion-icon>
+        Bewerten
+      </button>
+      <button ion-item (click)="goToProfile()">
+        <ion-icon name="person"></ion-icon>
+        Benutzer
+      </button>
+      <button *ngIf="isUserClassAdmin()===true || isUserSchoolAdmin()===true" ion-item (click)="goToAdmin()">
+        <ion-icon name="settings"></ion-icon>
+        Administrieren
+      </button>
+      <button ion-item (click)="logout()">
+        <ion-icon name="exit"></ion-icon>
+        Abmelden
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent></ion-nav>

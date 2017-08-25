@@ -1,0 +1,42 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Ergebnisse</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list  no-lines="false">
+    <p><strong>{{eventName}} am {{eventDate | date: 'dd.MM.yyyy'}}</strong></p>
+    <ion-grid>
+      <ion-row>
+        <ion-col><strong>Kriterium</strong></ion-col>
+        <ion-col col-3><strong>Ergebnis</strong></ion-col>
+        <ion-col col-4><strong>Bewertungen</strong></ion-col>
+      </ion-row>
+      <ion-item *ngFor="let r of results" text-wrap>
+        <ion-row>
+          <ion-col>{{r.criterion}}</ion-col>
+          <ion-col col-3>
+            <ion-badge color="star" item-end>{{r.rate | number:'1.2-2'}}</ion-badge>
+          </ion-col>
+          <ion-col col-3>
+            <ion-badge item-end>{{r.count}}</ion-badge>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-row>
+        <ion-col><strong>Mittelwert</strong></ion-col>
+        <ion-col col-3>
+          <ion-badge color="star" item-end>{{avg | number:'1.2-2'}}</ion-badge>
+          </ion-col>
+        <ion-col col-4></ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-list>
+
+</ion-content>
+

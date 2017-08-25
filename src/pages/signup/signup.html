@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Registrierung
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
+
+    <ion-item>
+      <ion-label stacked>Name</ion-label>
+      <ion-input formControlName="name" type="text" placeholder="Dein Name">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Schule</ion-label>
+      <ion-input formControlName="school" type="text"  placeholder="Deine Schule">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Klasse</ion-label>
+      <ion-input formControlName="classNo" type="text"  placeholder="Deine Klasse">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input formControlName="email" type="email" placeholder="Email Adresse"
+                 [class.invalid]="!signupForm.controls.email.valid && signupForm.controls.email.dirty">
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message"
+              *ngIf="!signupForm.controls.email.valid  && signupForm.controls.email.dirty">
+      <p>Please enter a valid email.</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Kennwort</ion-label>
+      <ion-input formControlName="password" type="password" placeholder="Ein Kennwort"
+                 [class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty">
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message"
+              *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty">
+      <p>Your password needs more than 6 characters.</p>
+    </ion-item>
+
+    <button ion-button block type="submit" [disabled]="!signupForm.valid">
+      Registrieren
+    </button>
+  </form>
+</ion-content>

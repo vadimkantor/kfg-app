@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Neue Klassenarbeit</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form [formGroup]="createEventForm" (submit)="createEvent()" novalidate>
+
+    <ion-item>
+      <ion-label stacked>Name</ion-label>
+      <ion-select formControlName="eventName" type="text" placeholder="Name der Klassenarbeit">
+        <ion-option *ngFor="let subject of subjects">{{subject}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Datum</ion-label>
+      <ion-datetime displayFormat="DD.MM.YYYY" pickerFormat="DD MMM YYYY" min="2017" max="2020-12-31"
+                    formControlName="eventDate">
+      </ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Bewertungsschlussdatum</ion-label>
+      <ion-datetime displayFormat="DD.MM.YYYY" pickerFormat="DD MMM YYYY" min="2017" max="2020-12-31"
+                    formControlName="eventDateTo">
+      </ion-datetime>
+    </ion-item>
+
+    <button type="submit" ion-button block [disabled]="!createEventForm.valid">
+      Erstellen
+    </button>
+  </form>
+</ion-content>

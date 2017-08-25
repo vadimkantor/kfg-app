@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Benutzer</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-list-header>
+      Benutzerdaten
+    </ion-list-header>
+
+
+    <ion-item>
+      <ion-label stacked>Name</ion-label>
+      <ion-input [(ngModel)]="name" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Schule</ion-label>
+      <ion-input [(ngModel)]="school" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Klasse</ion-label>
+      <ion-input [(ngModel)]="classNo" ></ion-input>
+    </ion-item>
+
+    <button ion-button block (click)="save(name,school,classNo)">
+      Speichern
+    </button>
+
+  </ion-list>
+
+
+</ion-content>

@@ -122,7 +122,7 @@ export class RatePage {
       this.eventId,
       this.criteriaWithRates);
 
-    this.navCtrl.setRoot(HomePage);
+    this.navCtrl.push(HomePage);
   }
 
 }
