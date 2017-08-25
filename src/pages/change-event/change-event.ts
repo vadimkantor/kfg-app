@@ -18,7 +18,7 @@ export class ChangeEventPage {
   private eventDateTo: string = '';
   private subjects: Array<string>;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams,
+  constructor( private navParams: NavParams,
               private eventsProvider: EventsProvider, private auth: AuthProvider,
               private subjectsProvider: SubjectsProvider,
               private alertCtrl: AlertController) {

@@ -22,7 +22,6 @@ import { ProfileProvider } from '../providers/profile/profile';
 import { CreateEventPage } from '../pages/create-event/create-event';
 import { NgPipesModule } from 'ngx-pipes';
 import { ChangeEventPage } from '../pages/change-event/change-event';
-import { AppErrorHandler } from '../errors/appErrorHandler';
 import { SlideboxProvider } from '../providers/slidebox/slideprovider';
 
 const cloudSettings: CloudSettings ={
@@ -31,6 +30,13 @@ const cloudSettings: CloudSettings ={
   }
 };
 
+declare var window;
+
+export class AppErrorHandler implements ErrorHandler {
+  handleError(err: any): void {
+    window.Ionic.handleNewError(err);
+  }
+}
 
 @NgModule({
   declarations: [
@@ -44,7 +50,6 @@ const cloudSettings: CloudSettings ={
     AdminPage,
     CreateEventPage,
     ChangeEventPage
-
   ],
   imports: [
     BrowserModule,
