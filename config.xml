@@ -88,5 +88,4 @@
         <variable name="CHANNEL_NAME" value="Production" />
         <variable name="UPDATE_METHOD" value="auto" />
     </plugin>
-    <engine name="ios" spec="~4.3.1" />
 </widget>
