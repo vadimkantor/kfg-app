@@ -29,7 +29,8 @@ export class AdminPage {
       this.classNo = snapshot.val().classNo;
     });
 
-    this.eventsProvider.getEvents(this.school, this.classNo).endAt('date').limitToLast(50).on('value', snapshot => {
+    this.eventsProvider.getEvents(this.school, this.classNo).endAt('date')
+      .limitToLast(50).on('value', snapshot => {
       this.eventList = [];
       snapshot.forEach(snap => {
         this.eventList.push({
