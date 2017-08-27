@@ -18,30 +18,29 @@ export class MainPage {
   private school: string = '';
   private isSchoolAdmin: boolean = false;
   private isClassAdmin: boolean = false;
-  private slides: Array<any>;
+  private slides: Array<any> = [];
 
 
   constructor(private navCtrl: NavController, private auth: AuthProvider, private slideboxProvider: SlideboxProvider) {
   }
 
   ionViewDidEnter() {
-    this.auth.getUserData().on('value', snapshot => {
-      this.userName = snapshot.val().name;
-      this.isSchoolAdmin = snapshot.val().isSchoolAdmin;
-      this.isClassAdmin = snapshot.val().isClassAdmin;
-      this.school = snapshot.val().school;
-    });
-
-    this.slideboxProvider.getSlidebox(this.school)
-      .on('value', snapshot => {
-        this.slides = [];
-        snapshot.forEach(snap => {
-          this.slides.push(
-            snap.val()
-          );
-          return false
+    this.auth.getUserData().on('value', authSnapshot => {
+      this.userName = authSnapshot.val().name;
+      this.isSchoolAdmin = authSnapshot.val().isSchoolAdmin;
+      this.isClassAdmin = authSnapshot.val().isClassAdmin;
+      this.school = authSnapshot.val().school;
+      this.slideboxProvider.getSlidebox(this.school)
+        .on('value', slideSnapshot => {
+          this.slides = [];
+          slideSnapshot.forEach(snap => {
+            this.slides.push(
+              snap.val()
+            );
+            return false
+          });
         });
-      });
+    });
   }
 
   logout() {

@@ -100,7 +100,9 @@ export class RatePage {
       this.userId,
       this.eventId,
       this.criteriaWithRates
-    );
+    ).then(()=>{
+      console.log("user rates saved");
+    });
 
     for (let i = 0; i < this.criteriaWithRates.length; i++) {
       let curRate = 0;

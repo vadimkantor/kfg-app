@@ -41,7 +41,6 @@ export class ChangeEventPage {
       .on('value', snapshot => {
         this.subjects = [];
         snapshot.forEach(snap => {
-          console.log(snap.val(), snap.key);
           this.subjects.push(
             snap.val()
           );
