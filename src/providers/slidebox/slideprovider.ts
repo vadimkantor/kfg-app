@@ -4,8 +4,12 @@ import firebase from 'firebase';
 @Injectable()
 export class SlideboxProvider {
 
-  getSlidebox(school: string):  firebase.database.Reference {
+  getSchoolSlidebox(school: string):  firebase.database.Reference {
     return firebase.database().ref('/schools/' + school + '/slidebox');
+  }
+
+  getSlidebox():  firebase.database.Reference {
+    return firebase.database().ref('/slidebox');
   }
 
 }

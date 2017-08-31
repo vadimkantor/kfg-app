@@ -13,17 +13,12 @@
 <ion-content padding>
   <p>Hallo, <strong>{{ userName }}</strong>!</p>
 
-
-  <ion-slides pager>
+  <ion-slides pager initialSlide="0" autoplay="4000" loop="false" effect="cube" speed="1000">
     <ion-slide *ngFor="let slide of slides">
-      <ion-toolbar>
-        <ion-buttons end>
-          <button ion-button (click)="goToHome()" color="primary">Überspringen</button>
-        </ion-buttons>
-      </ion-toolbar>
       <img [src]="slide.image" class="slide-image">
       <h2 class="slide-title" [innerHTML]="slide.title"></h2>
       <p [innerHTML]="slide.description"></p>
+      <button ion-button (click)="goToHome()" color="primary">Überspringen</button>
     </ion-slide>
     <ion-slide>
       <ion-toolbar>

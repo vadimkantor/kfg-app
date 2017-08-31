@@ -25,14 +25,25 @@ export class MainPage {
   }
 
   ionViewDidEnter() {
+
+    this.slideboxProvider.getSlidebox()
+      .on('value', slideSnapshot => {
+        this.slides = [];
+        slideSnapshot.forEach(snap => {
+          this.slides.push(
+            snap.val()
+          );
+          return false
+        });
+      });
+
     this.auth.getUserData().on('value', authSnapshot => {
       this.userName = authSnapshot.val().name;
       this.isSchoolAdmin = authSnapshot.val().isSchoolAdmin;
       this.isClassAdmin = authSnapshot.val().isClassAdmin;
       this.school = authSnapshot.val().school;
-      this.slideboxProvider.getSlidebox(this.school)
+      this.slideboxProvider.getSchoolSlidebox(this.school)
         .on('value', slideSnapshot => {
-          this.slides = [];
           slideSnapshot.forEach(snap => {
             this.slides.push(
               snap.val()

@@ -24,7 +24,7 @@
         <ion-card-content>
           <button *ngIf="isRated(event)===true" ion-button color="secondary" icon-left (click)="goToRate(event)"
           >
-            Ansehen
+            Meine Bewertung
           </button>
           <button *ngIf="isRated(event)!==true" ion-button [disabled]="!isRateable(event)" icon-left color="secondary"
                   (click)="goToRate(event)"
