@@ -30,7 +30,7 @@ export class ResetPasswordPage {
       this.authProvider.resetPassword(this.resetPasswordForm.value.email)
         .then((user) => {
           let alert = this.alertCtrl.create({
-            message: "Eine Email mit dem Aktivierungslink wurde geschickt",
+            message: "Die Email mit einem Link zur Änderung Deines Kennworts wurde geschickt.",
             buttons: [
               {
                 text: "Ok",

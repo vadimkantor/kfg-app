@@ -7,6 +7,7 @@ import {ProfilePage} from "../profile/profile";
 import {AuthProvider} from '../../providers/auth/auth';
 import {AdminPage} from "../admin/admin";
 import {SlideboxProvider} from "../../providers/slidebox/slideprovider";
+import {Storage} from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -21,7 +22,9 @@ export class MainPage {
   private slides: Array<any> = [];
 
 
-  constructor(private navCtrl: NavController, private auth: AuthProvider, private slideboxProvider: SlideboxProvider) {
+  constructor(private navCtrl: NavController, private auth: AuthProvider,
+              private slideboxProvider: SlideboxProvider,
+              private storage: Storage) {
   }
 
   ionViewDidEnter() {
@@ -54,7 +57,14 @@ export class MainPage {
     });
   }
 
+  exit() {
+    this.auth.logoutUser();
+    this.navCtrl.setRoot(LoginPage);
+  }
+
   logout() {
+    this.storage.remove('email');
+    this.storage.remove('password');
     this.auth.logoutUser();
     this.navCtrl.setRoot(LoginPage);
   }

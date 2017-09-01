@@ -10,6 +10,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthProvider} from '../../providers/auth/auth';
 import {EmailValidator} from '../../validators/email';
 import {MainPage} from '../main/main';
+import {Storage} from '@ionic/storage';
 
 @IonicPage({
   name: 'signup'
@@ -22,16 +23,17 @@ export class SignupPage {
   public signupForm: FormGroup;
   loading: Loading;
 
-  constructor(public navCtrl: NavController, public authProvider: AuthProvider,
-              public formBuilder: FormBuilder, public loadingCtrl: LoadingController,
-              public alertCtrl: AlertController) {
+  constructor(private navCtrl: NavController, private authProvider: AuthProvider,
+              private formBuilder: FormBuilder, private loadingCtrl: LoadingController,
+              private alertCtrl: AlertController, private storage: Storage) {
 
     this.signupForm = formBuilder.group({
       name: '',
       school: '',
       classNo: '',
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
-      password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+      password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
+      remember: [true, null]
     });
   }
 
@@ -47,9 +49,13 @@ export class SignupPage {
         this.signupForm.value.password,
         false,
         false
-        )
+      )
         .then(() => {
           this.loading.dismiss().then(() => {
+            if (this.signupForm.value.remember) {
+              this.storage.set('email', this.signupForm.value.email);
+              this.storage.set('password', this.signupForm.value.password);
+            }
             this.navCtrl.setRoot(MainPage);
           });
         }, (error) => {

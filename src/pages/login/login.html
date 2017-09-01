@@ -30,6 +30,11 @@
       <p>Das Kennwort muss mindestens 6 Zeichen haben</p>
     </ion-item>
 
+    <ion-item>
+      <ion-label>Anmeldedaten speichern</ion-label>
+      <ion-checkbox formControlName="remember" color="dark" checked="true"></ion-checkbox>
+    </ion-item>
+
     <button ion-button block type="submit" [disabled]="!loginForm.valid">
       Anmelden
     </button>

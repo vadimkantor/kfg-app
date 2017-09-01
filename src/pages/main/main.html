@@ -11,19 +11,17 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <p>Hallo, <strong>{{ userName }}</strong>!</p>
-
-  <ion-slides pager initialSlide="0" autoplay="4000" loop="false" effect="cube" speed="1000">
+  <ion-slides pager initialSlide="0" autoplay="5000" loop="false" effect="cube" speed="1000">
     <ion-slide *ngFor="let slide of slides">
-      <img [src]="slide.image" class="slide-image">
       <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+      <img [src]="slide.image" class="slide-image">
       <p [innerHTML]="slide.description"></p>
       <button ion-button (click)="goToHome()" color="primary">Überspringen</button>
     </ion-slide>
     <ion-slide>
       <ion-toolbar>
       </ion-toolbar>
-      <img src="assets/img/schooladvisor-slidebox-img-1.png" class="slide-image"/>
+      <img src="assets/img/schooladvisor-slidebox-img-2-small.png" class="slide-image"/>
       <h2 class="slide-title">Bereit zu bewerten?</h2>
       <button ion-button large clear icon-end color="primary" (click)="goToHome()">
         Weiter
@@ -43,17 +41,22 @@
         Bewerten
       </button>
       <button ion-item (click)="goToProfile()">
-        <ion-icon name="person"></ion-icon>
-        Benutzer
+        <ion-icon name="list-box"></ion-icon>
+        Mein Profil
       </button>
       <button *ngIf="isUserClassAdmin()===true || isUserSchoolAdmin()===true" ion-item (click)="goToAdmin()">
-        <ion-icon name="settings"></ion-icon>
+        <ion-icon name="school"></ion-icon>
         Administrieren
       </button>
       <button ion-item (click)="logout()">
-        <ion-icon name="exit"></ion-icon>
+        <ion-icon name="log-out"></ion-icon>
         Abmelden
       </button>
+      <button ion-item (click)="exit()">
+        <ion-icon name="exit"></ion-icon>
+        Beenden
+      </button>
+
     </ion-list>
   </ion-content>
 </ion-menu>

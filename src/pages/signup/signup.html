@@ -48,7 +48,10 @@
               *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty">
       <p>Your password needs more than 6 characters.</p>
     </ion-item>
-
+    <ion-item>
+      <ion-label>Anmeldedaten speichern</ion-label>
+      <ion-checkbox formControlName="remember" color="dark" checked="true"></ion-checkbox>
+    </ion-item>
     <button ion-button block type="submit" [disabled]="!signupForm.valid">
       Registrieren
     </button>

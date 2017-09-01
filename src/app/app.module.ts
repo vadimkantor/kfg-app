@@ -23,6 +23,7 @@ import { CreateEventPage } from '../pages/create-event/create-event';
 import { NgPipesModule } from 'ngx-pipes';
 import { ChangeEventPage } from '../pages/change-event/change-event';
 import { SlideboxProvider } from '../providers/slidebox/slideprovider';
+import { IonicStorageModule } from '@ionic/storage';
 
 const cloudSettings: CloudSettings ={
   'core':{
@@ -56,7 +57,8 @@ export class AppErrorHandler implements ErrorHandler {
     IonicModule.forRoot(MyApp),
     CloudModule.forRoot(cloudSettings),
     Ionic2RatingModule,
-    NgPipesModule
+    NgPipesModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
