@@ -5,9 +5,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { CloudSettings, CloudModule} from '@ionic/cloud-angular';
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { RatePage } from '../pages/rate/rate';
+import { RatesPage } from '../pages/rates/rates';
 import { ResultPage } from '../pages/result/result';
 import { EventsProvider } from '../providers/events/events';
 import { SubjectsProvider } from '../providers/subjects/subjects';
@@ -24,6 +24,8 @@ import { NgPipesModule } from 'ngx-pipes';
 import { ChangeEventPage } from '../pages/change-event/change-event';
 import { SlideboxProvider } from '../providers/slidebox/slideprovider';
 import { IonicStorageModule } from '@ionic/storage';
+import { SubstitutionsProvider } from '../providers/substitutions/substitutions';
+import { SubstitutionsPage } from '../pages/substitutions/substitutions';
 
 const cloudSettings: CloudSettings ={
   'core':{
@@ -43,14 +45,15 @@ export class AppErrorHandler implements ErrorHandler {
   declarations: [
     MyApp,
     MainPage,
-    HomePage,
+    RatesPage,
     LoginPage,
     RatePage,
     ResultPage,
     ProfilePage,
     AdminPage,
     CreateEventPage,
-    ChangeEventPage
+    ChangeEventPage,
+    SubstitutionsPage
   ],
   imports: [
     BrowserModule,
@@ -64,14 +67,15 @@ export class AppErrorHandler implements ErrorHandler {
   entryComponents: [
     MyApp,
     MainPage,
-    HomePage,
+    RatesPage,
     LoginPage,
     RatePage,
     ResultPage,
     ProfilePage,
     AdminPage,
     CreateEventPage,
-    ChangeEventPage
+    ChangeEventPage,
+    SubstitutionsPage
   ],
   providers: [
     StatusBar,
@@ -83,7 +87,8 @@ export class AppErrorHandler implements ErrorHandler {
     ProfileProvider,
     DatePipe,
     SubjectsProvider,
-    SlideboxProvider
+    SlideboxProvider,
+    SubstitutionsProvider
   ]
 })
 export class AppModule {}

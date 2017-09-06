@@ -9,8 +9,8 @@ import {
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {EmailValidator} from '../../validators/email';
 import {AuthProvider} from '../../providers/auth/auth';
-import {MainPage} from '../main/main';
 import {Storage} from '@ionic/storage';
+import {MainPage} from "../main/main";
 
 @IonicPage({
   name: 'login'

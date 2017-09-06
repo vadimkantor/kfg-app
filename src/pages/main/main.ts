@@ -2,12 +2,16 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController} from 'ionic-angular';
 
 import {LoginPage} from '../login/login';
-import {HomePage} from "../home/home";
+import {RatesPage} from "../rates/rates";
 import {ProfilePage} from "../profile/profile";
 import {AuthProvider} from '../../providers/auth/auth';
 import {AdminPage} from "../admin/admin";
 import {SlideboxProvider} from "../../providers/slidebox/slideprovider";
 import {Storage} from '@ionic/storage';
+import { LoadingController } from 'ionic-angular';
+import {SubstitutionsPage} from "../substitutions/substitutions";
+
+
 
 @IonicPage()
 @Component({
@@ -20,15 +24,24 @@ export class MainPage {
   private isSchoolAdmin: boolean = false;
   private isClassAdmin: boolean = false;
   private slides: Array<any> = [];
-
+  private classNo: string = '';
 
   constructor(private navCtrl: NavController, private auth: AuthProvider,
               private slideboxProvider: SlideboxProvider,
-              private storage: Storage) {
+              private storage: Storage,
+              private loadingCtrl: LoadingController) {
+    this.presentLoading();
+  }
+
+  presentLoading() {
+    this.loadingCtrl.create({
+      content: 'Bitte warten...',
+      duration: 2000,
+      dismissOnPageChange: true
+    }).present();
   }
 
   ionViewDidEnter() {
-
     this.slideboxProvider.getSlidebox()
       .on('value', slideSnapshot => {
         this.slides = [];
@@ -45,6 +58,9 @@ export class MainPage {
       this.isSchoolAdmin = authSnapshot.val().isSchoolAdmin;
       this.isClassAdmin = authSnapshot.val().isClassAdmin;
       this.school = authSnapshot.val().school;
+      this.storage.set("school", this.school);
+      this.classNo=authSnapshot.val().classNo;
+      this.storage.set("classNo", this.classNo);
       this.slideboxProvider.getSchoolSlidebox(this.school)
         .on('value', slideSnapshot => {
           slideSnapshot.forEach(snap => {
@@ -55,6 +71,9 @@ export class MainPage {
           });
         });
     });
+
+
+
   }
 
   exit() {
@@ -69,8 +88,12 @@ export class MainPage {
     this.navCtrl.setRoot(LoginPage);
   }
 
-  goToHome() {
-    this.navCtrl.push(HomePage);
+  goToRatesPage() {
+    this.navCtrl.push(RatesPage);
+  }
+
+  goToSubstitutionPage(){
+    this.navCtrl.push(SubstitutionsPage);
   }
 
   goToProfile() {

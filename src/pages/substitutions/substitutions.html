@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Vertretungsplan
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let s of substitutions" text-wrap>
+      <ion-card>
+        <ion-card-header>
+          <p>Datum: <strong>{{s?.Datum | date: 'dd.MM.yyyy'}}</strong></p>
+          <p>Art: <strong>{{s?.Art}}</strong></p>
+          <p>Stunde: <strong>{{s?.Stunde}}</strong></p>
+          <p>Raum: <strong>{{s?.Raum}}</strong></p>
+          <p>Vertreter: <strong>{{s?.Vertreter}}</strong></p>
+          <p>Fach neu: <strong>{{s?.FachNeu}}</strong></p>
+          <p>Fach alt: <strong>{{s?.FachAlt}}</strong></p>
+        </ion-card-header>
+      </ion-card>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

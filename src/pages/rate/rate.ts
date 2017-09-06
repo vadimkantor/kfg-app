@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavParams, NavController} from 'ionic-angular';
 import {RatesProvider} from '../../providers/rates/rates';
-import {HomePage} from '../home/home';
+import {RatesPage} from '../rates/rates';
 import {AuthProvider} from '../../providers/auth/auth';
-
+import { LoadingController } from 'ionic-angular';
 
 @IonicPage({
   name: 'rate',
@@ -28,12 +28,23 @@ export class RatePage {
   constructor(private navCtrl: NavController,
               private navParams: NavParams,
               private auth: AuthProvider,
-              private ratesProvider: RatesProvider) {
+              private ratesProvider: RatesProvider,
+              private loadingCtrl: LoadingController) {
+
     this.eventId = this.navParams.get("eventId");
     this.eventDate = this.navParams.get("eventDate");
     this.eventName = this.navParams.get("eventName");
     this.eventReadOnly = this.navParams.get("eventReadOnly");
+    this.presentLoading();
+  }
 
+
+  presentLoading() {
+    this.loadingCtrl.create({
+      content: 'Bitte warten...',
+      duration: 2000,
+      dismissOnPageChange: true
+    }).present();
   }
 
   ionViewDidEnter() {
@@ -42,6 +53,7 @@ export class RatePage {
       this.classNo = snapshot.val().classNo;
       this.school = snapshot.val().school;
     });
+
 
 
     this.currentRates = [];
@@ -74,6 +86,8 @@ export class RatePage {
         return false;
       });
     });
+
+
 
 
     this.ratesProvider.getCurrentRates(
@@ -124,7 +138,7 @@ export class RatePage {
       this.eventId,
       this.criteriaWithRates);
 
-    this.navCtrl.push(HomePage);
+    this.navCtrl.push(RatesPage);
   }
 
 }

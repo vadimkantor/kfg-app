@@ -7,13 +7,14 @@ import {RatesProvider} from '../../providers/rates/rates';
 import {AuthProvider} from '../../providers/auth/auth';
 import {DatePipe} from '@angular/common';
 import {ReversePipe} from 'ngx-pipes/src/app/pipes/array/reverse';
+import { LoadingController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
+  templateUrl: 'rates.html',
   providers: [ReversePipe]
 })
-export class HomePage {
+export class RatesPage {
   private userId: string ='';
   private classNo: string = '';
   private school: string = '';
@@ -21,7 +22,9 @@ export class HomePage {
 
   constructor(private navCtrl: NavController, private eventsProvider: EventsProvider,
               private ratesProvider: RatesProvider, private auth:AuthProvider,
-              private datepipe: DatePipe, private reversePipe: ReversePipe) {
+              private datepipe: DatePipe, private reversePipe: ReversePipe,
+              private loadingCtrl: LoadingController) {
+    this.presentLoading();
   }
 
   ionViewDidEnter() {
@@ -34,19 +37,27 @@ export class HomePage {
 
     this.eventsProvider.getEvents(this.school, this.classNo)
       .on('value', snapshot => {
-      this.eventList = [];
-      snapshot.forEach(snap => {
-        if(snap.val().hidden!==true) {
-          this.eventList.push({
-            id: snap.key,
-            name: snap.val().name,
-            date: snap.val().date,
-            dateTo: snap.val().dateTo
-          })
-        };
-        return false
+        this.eventList = [];
+        snapshot.forEach(snap => {
+          if(snap.val().hidden!==true) {
+            this.eventList.push({
+              id: snap.key,
+              name: snap.val().name,
+              date: snap.val().date,
+              dateTo: snap.val().dateTo
+            })
+          };
+          return false
+        });
       });
-    });
+  }
+
+  presentLoading() {
+    this.loadingCtrl.create({
+      content: 'Bitte warten...',
+      duration: 2000,
+      dismissOnPageChange: true
+    }).present();
   }
 
   goToRate(event) {

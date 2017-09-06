@@ -5,6 +5,7 @@ import {EventsProvider} from '../../providers/events/events';
 import {ResultPage} from '../result/result';
 import {CreateEventPage} from "../create-event/create-event";
 import {ChangeEventPage} from "../change-event/change-event";
+import { LoadingController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -19,7 +20,17 @@ export class AdminPage {
 
   constructor(private navCtrl: NavController,
               private auth: AuthProvider,
-              private eventsProvider: EventsProvider) {
+              private eventsProvider: EventsProvider,
+              private loadingCtrl: LoadingController) {
+    this.presentLoading();
+  }
+
+  presentLoading() {
+    this.loadingCtrl.create({
+      content: 'Bitte warten...',
+      duration: 2000,
+      dismissOnPageChange: true
+    }).present();
   }
 
   ionViewDidEnter() {

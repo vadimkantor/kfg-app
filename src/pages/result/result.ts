@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {RatesProvider} from '../../providers/rates/rates';
 import {AuthProvider} from '../../providers/auth/auth';
+import { LoadingController } from 'ionic-angular';
+
 
 @IonicPage()
 @Component({
@@ -19,18 +21,30 @@ export class ResultPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private auth: AuthProvider,
-              private ratesProvider: RatesProvider) {
+              private ratesProvider: RatesProvider,
+              private loadingCtrl: LoadingController) {
     this.eventId = this.navParams.get("eventId");
     this.eventName = this.navParams.get("eventName");
     this.eventDate = this.navParams.get("eventDate");
+    this.presentLoading();
+  }
 
+  presentLoading() {
+    this.loadingCtrl.create({
+      content: 'Bitte warten...',
+      duration: 2000,
+      dismissOnPageChange: true
+    }).present();
   }
 
   ionViewDidEnter() {
+
     this.auth.getUserData().on('value', snapshot => {
       this.classNo = snapshot.val().classNo;
       this.school = snapshot.val().school;
     });
+
+
 
     this.ratesProvider.getCurrentRates(
       this.school,

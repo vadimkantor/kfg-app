@@ -16,14 +16,14 @@
       <h2 class="slide-title" [innerHTML]="slide.title"></h2>
       <img [src]="slide.image" class="slide-image">
       <p [innerHTML]="slide.description"></p>
-      <button ion-button (click)="goToHome()" color="primary">Überspringen</button>
+      <button ion-button (click)="goToRatesPage()" color="primary">Überspringen</button>
     </ion-slide>
     <ion-slide>
       <ion-toolbar>
       </ion-toolbar>
       <img src="assets/img/schooladvisor-slidebox-img-2-small.png" class="slide-image"/>
       <h2 class="slide-title">Bereit zu bewerten?</h2>
-      <button ion-button large clear icon-end color="primary" (click)="goToHome()">
+      <button ion-button large clear icon-end color="primary" (click)="goToRatesPage()">
         Weiter
         <ion-icon name="arrow-forward"></ion-icon>
       </button>
@@ -36,9 +36,13 @@
 <ion-menu [content]="mycontent" type="overlay">
   <ion-content>
     <ion-list>
-      <button ion-item (click)="goToHome()">
+      <button ion-item (click)="goToRatesPage()">
         <ion-icon name="star-half"></ion-icon>
         Bewerten
+      </button>
+      <button ion-item (click)="goToSubstitutionPage()">
+        <ion-icon name="contacts"></ion-icon>
+        Vertretungsplan
       </button>
       <button ion-item (click)="goToProfile()">
         <ion-icon name="list-box"></ion-icon>
@@ -51,10 +55,6 @@
       <button ion-item (click)="logout()">
         <ion-icon name="log-out"></ion-icon>
         Abmelden
-      </button>
-      <button ion-item (click)="exit()">
-        <ion-icon name="exit"></ion-icon>
-        Beenden
       </button>
 
     </ion-list>
