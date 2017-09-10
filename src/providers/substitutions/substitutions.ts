@@ -4,9 +4,7 @@ import firebase from 'firebase';
 @Injectable()
 export class SubstitutionsProvider {
 
-  getSchoolSubstitutions(school: string):  firebase.database.Reference {
-    return firebase.database().ref('/schools/' + school + '/substitutions');
+  getSchoolSubstitutions(school: string):  firebase.database.Query {
+    return firebase.database().ref('/schools/' + school + '/substitutions').orderByChild('Datum');
   }
-
-
 }

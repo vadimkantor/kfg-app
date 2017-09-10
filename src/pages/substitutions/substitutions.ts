@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {SubstitutionsProvider} from '../../providers/substitutions/substitutions';
 
-import { LoadingController } from 'ionic-angular';
+import {LoadingController} from 'ionic-angular';
 import {Storage} from '@ionic/storage';
 
 
@@ -13,12 +13,10 @@ export class SubstitutionsPage {
 
   private substitutions: Array<any>;
 
-  constructor(
-              private  substitutionsProvider: SubstitutionsProvider,
+  constructor(private  substitutionsProvider: SubstitutionsProvider,
               private loadingCtrl: LoadingController,
               private storage: Storage) {
     this.presentLoading();
-
 
 
   }
@@ -35,23 +33,21 @@ export class SubstitutionsPage {
           .on('value', snapshot => {
             this.substitutions = [];
             snapshot.forEach(snap => {
-                if(snap.val().Klasse.includes(classNo)) {
-                  this.substitutions.push({
-                    Art: snap.val().Art,
-                    Datum: snap.val().Datum,
-                    Klasse: snap.val().Klasse,
-                    Stunde: snap.val().Stunde,
-                    Vertreter: snap.val().Vertreter,
-                    FachNeu: snap.val().FachNeu,
-                    FachAlt: snap.val().FachAlt,
-                    Raum: snap.val().Raum
-                  });
-                }
+              if (snap.val().Klasse.includes(classNo)) {
+                this.substitutions.push({
+                  Art: snap.val().Art,
+                  Datum: snap.val().Datum,
+                  Klasse: snap.val().Klasse,
+                  Stunde: snap.val().Stunde,
+                  Vertreter: snap.val().Vertreter,
+                  FachNeu: snap.val().FachNeu,
+                  FachAlt: snap.val().FachAlt,
+                  Raum: snap.val().Raum
+                });
+              }
               return false
             });
           });
-
-
       });
     });
 
