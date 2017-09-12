@@ -5,32 +5,42 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-list-header>
-      Benutzerdaten
-    </ion-list-header>
 
+  <form [formGroup]="saveForm" (submit)="saveUser()" novalidate>
 
     <ion-item>
       <ion-label stacked>Name</ion-label>
-      <ion-input [(ngModel)]="name" ></ion-input>
+      <ion-input formControlName="name" type="text" [value]="name">
+      </ion-input>
     </ion-item>
-
     <ion-item>
       <ion-label stacked>Schule</ion-label>
-      <ion-input [(ngModel)]="school" ></ion-input>
+      <ion-input formControlName="school" type="text" [value]="school">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Klasse</ion-label>
+      <ion-input formControlName="classNo" type="text" [value]="classNo" >
+      </ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Klasse</ion-label>
-      <ion-input [(ngModel)]="classNo" ></ion-input>
+      <ion-icon *ngIf="this.saveForm.valid  && saveForm.controls.checksum.dirty" name="checkmark" item-end></ion-icon>
+      <ion-label stacked>Prüfzahl</ion-label>
+
+      <ion-input formControlName="checksum" type="text" placeholder="123"
+                 [class.invalid]="!saveForm.controls.checksum.valid && saveForm.controls.checksum.dirty">
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message"
+              *ngIf="!this.saveForm.valid  && saveForm.controls.checksum.dirty">
+      <p>Prüfzahl ist nicht korrekt.</p>
     </ion-item>
 
-    <button ion-button block (click)="save(name,school,classNo)">
+    <button ion-button block type="submit" [disabled]="!saveForm.valid">
       Speichern
     </button>
-
-  </ion-list>
-
-
+  </form>
 </ion-content>
+
+

@@ -18,12 +18,12 @@
     </ion-item>
     <ion-item>
       <ion-label stacked>Schule</ion-label>
-      <ion-input formControlName="school" type="text"  placeholder="Deine Schule">
+      <ion-input formControlName="school" type="text" placeholder="Deine Schule">
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-label stacked>Klasse</ion-label>
-      <ion-input formControlName="classNo" type="text"  placeholder="Deine Klasse">
+      <ion-input formControlName="classNo" type="text" placeholder="Deine Klasse">
       </ion-input>
     </ion-item>
 
@@ -37,7 +37,6 @@
               *ngIf="!signupForm.controls.email.valid  && signupForm.controls.email.dirty">
       <p>Please enter a valid email.</p>
     </ion-item>
-
     <ion-item>
       <ion-label stacked>Kennwort</ion-label>
       <ion-input formControlName="password" type="password" placeholder="Ein Kennwort"
@@ -48,6 +47,21 @@
               *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty">
       <p>Your password needs more than 6 characters.</p>
     </ion-item>
+
+    <ion-item>
+      <ion-icon *ngIf="this.signupForm.valid  && signupForm.controls.checksum.dirty" name="checkmark" item-end></ion-icon>
+      <ion-label stacked>Prüfzahl</ion-label>
+
+      <ion-input formControlName="checksum" type="text" placeholder="---"
+                 [class.invalid]="!signupForm.controls.checksum.valid && signupForm.controls.checksum.dirty">
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message"
+              *ngIf="!this.signupForm.valid  && signupForm.controls.checksum.dirty">
+      <p>Prüfzahl ist nicht korrekt.</p>
+    </ion-item>
+
+
     <ion-item>
       <ion-label>Anmeldedaten speichern</ion-label>
       <ion-checkbox formControlName="remember" color="dark" checked="true"></ion-checkbox>

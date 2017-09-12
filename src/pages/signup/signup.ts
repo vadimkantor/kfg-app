@@ -9,6 +9,7 @@ import {
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthProvider} from '../../providers/auth/auth';
 import {EmailValidator} from '../../validators/email';
+import {ChecksumValidator} from '../../validators/checksum';
 import {MainPage} from '../main/main';
 import {Storage} from '@ionic/storage';
 
@@ -31,10 +32,11 @@ export class SignupPage {
       name: '',
       school: '',
       classNo: '',
+      checksum: ['', Validators.compose([Validators.required])],
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
       remember: [true, null]
-    });
+    }, {validator: ChecksumValidator.isValid('school','classNo', 'checksum')});
   }
 
   signupUser() {
