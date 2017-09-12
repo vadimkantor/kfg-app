@@ -5,7 +5,6 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {LoginPage} from '../pages/login/login';
 import {MainPage} from "../pages/main/main";
 import {Auth} from '@ionic/cloud-angular';
-import {FCM} from '@ionic-native/fcm';
 
 import firebase from 'firebase';
 
@@ -15,8 +14,8 @@ import firebase from 'firebase';
 export class MyApp {
   rootPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public auth: Auth,
-              private fcm: FCM) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public auth: Auth
+              ) {
 
     firebase.initializeApp({
       apiKey: "AIzaSyDHm8_PhwCJKfmvuEFouVU-PSLEoS-0egw",
@@ -30,23 +29,6 @@ export class MyApp {
 
       statusBar.styleDefault();
       splashScreen.hide();
-
-      if (platform.is('cordova')) {
-        fcm.subscribeToTopic('marketing').catch(e => console.log('Error subscribing to topic', e));
-        fcm.getToken().then(token => {
-          alert("Use this token for sending device specific messages\nToken: " + token);
-        });
-        fcm.onNotification().subscribe(data => {
-          if (data.wasTapped) {
-            alert("Received in background:" + data);
-          } else {
-            alert("Received in foreground:" + data);
-          }
-        });
-        fcm.unsubscribeFromTopic('marketing');
-      } else {
-        console.warn("Push notifications not initialized. Cordova is not available - Run in physical device");
-      }
 
       if (this.auth.isAuthenticated()) {
         this.rootPage = MainPage;
