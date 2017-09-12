@@ -8,6 +8,7 @@ import { Auth } from '@ionic/cloud-angular';
 
 import firebase from 'firebase';
 
+declare var FCMPlugin;
 @Component({
   templateUrl: 'app.html'
 })
@@ -25,6 +26,30 @@ export class MyApp {
     });
 
     platform.ready().then(() => {
+
+      if(typeof(FCMPlugin) !== "undefined"){
+        FCMPlugin.getToken(function(t){
+          console.log("Use this token for sending device specific messages\nToken: " + t);
+        }, function(e){
+          console.log("Uh-Oh!\n"+e);
+        });
+
+        FCMPlugin.onNotification(function(d){
+          if(d.wasTapped){
+            alert(d);
+            // Background recieval (Even if app is closed),
+            //   bring up the message in UI
+          } else {
+            alert(d);
+            // Foreground recieval, update UI or what have you...
+          }
+        }, function(msg){
+          // No problemo, registered callback
+        }, function(err){
+          console.log("Arf, no good mate... " + err);
+        });
+      } else console.log("Notifications disabled, only provided in Android/iOS environment");
+
 
       statusBar.styleDefault();
       splashScreen.hide();
