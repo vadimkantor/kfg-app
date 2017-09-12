@@ -19,6 +19,7 @@ export class AdminPage {
   private classNo: string = '';
   private school: string = '';
   private eventList: Array<any>;
+  private versionNumber: string = '';
 
   constructor(private navCtrl: NavController,
               private auth: AuthProvider,
@@ -97,16 +98,7 @@ export class AdminPage {
 
   getVersionNumber() {
     this.app.getVersionNumber().then(v => {
-      let alert = this.alertCtrl.create({
-        message: "Version Nummer: " + v,
-        buttons: [
-          {
-            text: "Ok",
-            role: 'cancel'
-          }
-        ]
-      });
-      alert.present();
+      this.versionNumber = v;
     });
   }
 }
