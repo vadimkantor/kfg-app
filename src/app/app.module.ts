@@ -26,6 +26,7 @@ import { SlideboxProvider } from '../providers/slidebox/slideprovider';
 import { IonicStorageModule } from '@ionic/storage';
 import { SubstitutionsProvider } from '../providers/substitutions/substitutions';
 import { SubstitutionsPage } from '../pages/substitutions/substitutions';
+import { FCM } from '@ionic-native/fcm';
 
 const cloudSettings: CloudSettings ={
   'core':{
@@ -88,7 +89,8 @@ export class AppErrorHandler implements ErrorHandler {
     DatePipe,
     SubjectsProvider,
     SlideboxProvider,
-    SubstitutionsProvider
+    SubstitutionsProvider,
+    FCM
   ]
 })
 export class AppModule {}

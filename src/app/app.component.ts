@@ -1,21 +1,22 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { LoginPage } from '../pages/login/login';
-import { MainPage } from "../pages/main/main";
-import { Auth } from '@ionic/cloud-angular';
+import {Component} from '@angular/core';
+import {Platform} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {LoginPage} from '../pages/login/login';
+import {MainPage} from "../pages/main/main";
+import {Auth} from '@ionic/cloud-angular';
+import {FCM} from '@ionic-native/fcm';
 
 import firebase from 'firebase';
 
-declare var FCMPlugin;
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   rootPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public auth: Auth) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public auth: Auth,
+              private fcm: FCM) {
 
     firebase.initializeApp({
       apiKey: "AIzaSyDHm8_PhwCJKfmvuEFouVU-PSLEoS-0egw",
@@ -26,38 +27,30 @@ export class MyApp {
     });
 
     platform.ready().then(() => {
-
-      if(typeof(FCMPlugin) !== "undefined"){
-        FCMPlugin.getToken(function(t){
-          console.log("Use this token for sending device specific messages\nToken: " + t);
-        }, function(e){
-          console.log("Uh-Oh!\n"+e);
+      if (platform.is('cordova')) {
+        alert("Hallo!");
+        fcm.subscribeToTopic('all').catch(e => console.log('Error subscribing to topic', e));
+        fcm.getToken().then(token => {
+          alert("Use this token for sending device specific messages\nToken: " + token);
         });
-
-        FCMPlugin.onNotification(function(d){
-          if(d.wasTapped){
-            alert(d);
-            // Background recieval (Even if app is closed),
-            //   bring up the message in UI
+        fcm.onNotification().subscribe(data => {
+          if (data.wasTapped) {
+            alert("Received in background:" + data);
           } else {
-            alert(d);
-            // Foreground recieval, update UI or what have you...
+            alert("Received in foreground:" + data);
           }
-        }, function(msg){
-          // No problemo, registered callback
-        }, function(err){
-          console.log("Arf, no good mate... " + err);
         });
-      } else console.log("Notifications disabled, only provided in Android/iOS environment");
-
-
+        fcm.unsubscribeFromTopic('all');
+      } else {
+        console.warn("Push notifications not initialized. Cordova is not available - Run in physical device");
+      }
       statusBar.styleDefault();
       splashScreen.hide();
 
-      if(this.auth.isAuthenticated()){
-        this.rootPage=MainPage;
-      }else{
-        this.rootPage=LoginPage;
+      if (this.auth.isAuthenticated()) {
+        this.rootPage = MainPage;
+      } else {
+        this.rootPage = LoginPage;
       }
     });
   }
