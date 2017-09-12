@@ -27,9 +27,12 @@ export class MyApp {
     });
 
     platform.ready().then(() => {
+
+      statusBar.styleDefault();
+      splashScreen.hide();
+
       if (platform.is('cordova')) {
-        alert("Hallo!");
-        fcm.subscribeToTopic('all').catch(e => console.log('Error subscribing to topic', e));
+        fcm.subscribeToTopic('marketing').catch(e => console.log('Error subscribing to topic', e));
         fcm.getToken().then(token => {
           alert("Use this token for sending device specific messages\nToken: " + token);
         });
@@ -40,12 +43,10 @@ export class MyApp {
             alert("Received in foreground:" + data);
           }
         });
-        fcm.unsubscribeFromTopic('all');
+        fcm.unsubscribeFromTopic('marketing');
       } else {
         console.warn("Push notifications not initialized. Cordova is not available - Run in physical device");
       }
-      statusBar.styleDefault();
-      splashScreen.hide();
 
       if (this.auth.isAuthenticated()) {
         this.rootPage = MainPage;
