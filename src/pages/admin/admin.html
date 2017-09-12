@@ -6,6 +6,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
+  <ion-item>School-Advisor {{versionNumber}}</ion-item>
   <ion-item text-wrap><strong>{{ userName }}</strong>, Du bist ein Administrator der Klasse {{ classNo }}!</ion-item>
 
   <ion-row center>
@@ -42,6 +43,7 @@
         </ion-card-content>
       </ion-card>
     </ion-item>
-
   </ion-list>
+  <button ion-button color="red" (click)="getVersionNumber()">Version anzeigen</button>
+
 </ion-content>

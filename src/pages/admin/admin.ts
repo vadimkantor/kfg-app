@@ -5,7 +5,9 @@ import {EventsProvider} from '../../providers/events/events';
 import {ResultPage} from '../result/result';
 import {CreateEventPage} from "../create-event/create-event";
 import {ChangeEventPage} from "../change-event/change-event";
-import { LoadingController } from 'ionic-angular';
+import {LoadingController, AlertController} from 'ionic-angular';
+import {AppVersion} from '@ionic-native/app-version';
+
 
 @IonicPage()
 @Component({
@@ -21,7 +23,9 @@ export class AdminPage {
   constructor(private navCtrl: NavController,
               private auth: AuthProvider,
               private eventsProvider: EventsProvider,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private app: AppVersion,
+              private alertCtrl: AlertController) {
     this.presentLoading();
   }
 
@@ -34,6 +38,7 @@ export class AdminPage {
   }
 
   ionViewDidEnter() {
+
     this.auth.getUserData().on('value', snapshot => {
       this.userName = snapshot.val().name;
       this.school = snapshot.val().school;
@@ -49,7 +54,7 @@ export class AdminPage {
           name: snap.val().name,
           date: snap.val().date,
           dateTo: snap.val().dateTo,
-          hidden:snap.val().hidden
+          hidden: snap.val().hidden
         });
         return false
       });
@@ -65,11 +70,11 @@ export class AdminPage {
     });
   }
 
-  goToCreateEventPage(){
+  goToCreateEventPage() {
     this.navCtrl.push(CreateEventPage);
   }
 
-  goToChangeEvent(event){
+  goToChangeEvent(event) {
     this.navCtrl.push(ChangeEventPage, {
       'eventId': event.id,
       'eventDate': event.date,
@@ -78,14 +83,30 @@ export class AdminPage {
     });
   }
 
-  isHidden(event){
+  isHidden(event) {
     return event.hidden;
   }
-  hideEvent(event){
+
+  hideEvent(event) {
     this.eventsProvider.hideEvent(this.school, this.classNo, event.id);
   }
 
-  unhideEvent(event){
+  unhideEvent(event) {
     this.eventsProvider.unhideEvent(this.school, this.classNo, event.id);
+  }
+
+  getVersionNumber() {
+    this.app.getVersionNumber().then(v => {
+      let alert = this.alertCtrl.create({
+        message: "Version Nummer: " + v,
+        buttons: [
+          {
+            text: "Ok",
+            role: 'cancel'
+          }
+        ]
+      });
+      alert.present();
+    });
   }
 }

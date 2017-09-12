@@ -11,8 +11,6 @@ import {Storage} from '@ionic/storage';
 import { LoadingController } from 'ionic-angular';
 import {SubstitutionsPage} from "../substitutions/substitutions";
 
-import {FCM} from '@ionic-native/fcm';
-import {Platform} from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -30,8 +28,7 @@ export class MainPage {
   constructor(private navCtrl: NavController, private auth: AuthProvider,
               private slideboxProvider: SlideboxProvider,
               private storage: Storage,
-              private loadingCtrl: LoadingController,
-              private fcm: FCM, private platform: Platform) {
+              private loadingCtrl: LoadingController) {
     this.presentLoading();
   }
 
@@ -73,23 +70,6 @@ export class MainPage {
           });
         });
     });
-
-    if (this.platform.is('cordova')) {
-      this.fcm.subscribeToTopic('marketing').catch(e => console.log('Error subscribing to topic', e));
-      this.fcm.getToken().then(token => {
-        alert("Use this token for sending device specific messages\nToken: " + token);
-      });
-      this.fcm.onNotification().subscribe(data => {
-        if (data.wasTapped) {
-          alert("Received in background:" + data);
-        } else {
-          alert("Received in foreground:" + data);
-        }
-      });
-
-    } else {
-      console.warn("Push notifications not initialized. Cordova is not available - Run in physical device");
-    }
 
   }
 
