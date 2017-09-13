@@ -11,8 +11,8 @@
     <ion-list-header>{{eventName}}. Datum: {{eventDate}}</ion-list-header>
     <ion-item-sliding *ngFor="let c of criteriaWithRates">
       <ion-item text-wrap>
-        <h2>{{c.criterion}}</h2>
-        <h3>{{c.description}}</h3>
+        <h3>{{c.criterion}}
+        <button ion-button icon-only clear (click)="showDescription(c.description)"><ion-icon name="help-circle"></ion-icon></button></h3>
         <rating [(ngModel)]="c.rate" [readOnly]="eventReadOnly"
                 min="1"
                 max="5"

@@ -6,7 +6,6 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <ion-item>School-Advisor {{versionNumber}}</ion-item>
   <ion-item text-wrap><strong>{{ userName }}</strong>, Du bist ein Administrator der Klasse {{ classNo }}!</ion-item>
 
   <ion-row center>
@@ -28,7 +27,7 @@
           <p>Bewertung bis: <strong>{{event?.dateTo | date: 'dd.MM.yyyy'}}</strong></p>
         </ion-card-header>
         <ion-card-content>
-          <button ion-button color="dark" (click)="goToChangeEvent(event)">
+          <button ion-button color="primary" (click)="goToChangeEvent(event)">
             <ion-icon name="settings"></ion-icon>
           </button>
           <button [disabled]="isHidden(event)===true" ion-button color="danger" (click)="hideEvent(event)">
@@ -40,11 +39,13 @@
           <button ion-button color="primary" (click)="goToResult(event)">
             Ergebnisse
           </button>
+          <button [disabled]="!isClassAdmin" ion-button color="dark" (click)="deleteEvent(event)">
+            <ion-icon name="trash"></ion-icon>
+          </button>
         </ion-card-content>
       </ion-card>
     </ion-item>
   </ion-list>
-  <button ion-button color="dark" (click)="getVersionNumber()">App-Info</button>
-  <ion-item>{{versionNumber}}</ion-item>
+
 
 </ion-content>

@@ -26,13 +26,13 @@ export class EventsProvider {
       ref.child("sortid").set("-" + date);
       return resolve();
     });
-  }
+   }
 
-   getEvents(school: string, classNo: string): firebase.database.Query {
+  getEvents(school: string, classNo: string): firebase.database.Query {
     return firebase.database().ref('/schools/' + school + '/events/' + classNo).orderByChild('sortid');
   }
 
-   hideEvent(school: string, classNo: string, eventId: string) {
+  hideEvent(school: string, classNo: string, eventId: string) {
     let ref = firebase.database().ref('/schools/' + school + '/events/' + classNo + '/' + eventId + '/hidden');
     ref.set(true);
   }
@@ -42,4 +42,7 @@ export class EventsProvider {
     ref.set(false);
   }
 
+  deleteEvent(school: string, classNo: string, eventId: string) {
+    firebase.database().ref('/schools/' + school + '/events/' + classNo + '/' + eventId).remove();
+  }
 }

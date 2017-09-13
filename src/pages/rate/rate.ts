@@ -3,7 +3,7 @@ import {IonicPage, NavParams, NavController} from 'ionic-angular';
 import {RatesProvider} from '../../providers/rates/rates';
 import {RatesPage} from '../rates/rates';
 import {AuthProvider} from '../../providers/auth/auth';
-import { LoadingController } from 'ionic-angular';
+import {LoadingController, AlertController} from 'ionic-angular';
 
 @IonicPage({
   name: 'rate',
@@ -29,7 +29,8 @@ export class RatePage {
               private navParams: NavParams,
               private auth: AuthProvider,
               private ratesProvider: RatesProvider,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private alertCtrl: AlertController) {
 
     this.eventId = this.navParams.get("eventId");
     this.eventDate = this.navParams.get("eventDate");
@@ -53,7 +54,6 @@ export class RatePage {
       this.classNo = snapshot.val().classNo;
       this.school = snapshot.val().school;
     });
-
 
 
     this.currentRates = [];
@@ -88,8 +88,6 @@ export class RatePage {
     });
 
 
-
-
     this.ratesProvider.getCurrentRates(
       this.school,
       this.classNo,
@@ -114,7 +112,7 @@ export class RatePage {
       this.userId,
       this.eventId,
       this.criteriaWithRates
-    ).then(()=>{
+    ).then(() => {
       console.log("user rates saved");
     });
 
@@ -141,4 +139,16 @@ export class RatePage {
     this.navCtrl.push(RatesPage);
   }
 
+  showDescription(desc: string) {
+    let alert = this.alertCtrl.create({
+      title: 'Hilfe',
+      message: desc,
+      buttons: [
+        {
+          text: 'OK'
+        }
+      ]
+    });
+    alert.present();
+  }
 }

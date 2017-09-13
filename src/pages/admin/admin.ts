@@ -6,7 +6,6 @@ import {ResultPage} from '../result/result';
 import {CreateEventPage} from "../create-event/create-event";
 import {ChangeEventPage} from "../change-event/change-event";
 import {LoadingController, AlertController} from 'ionic-angular';
-import {AppVersion} from '@ionic-native/app-version';
 
 
 @IonicPage()
@@ -19,13 +18,12 @@ export class AdminPage {
   private classNo: string = '';
   private school: string = '';
   private eventList: Array<any>;
-  private versionNumber: string = '';
+  private isClassAdmin: boolean = false;
 
   constructor(private navCtrl: NavController,
               private auth: AuthProvider,
               private eventsProvider: EventsProvider,
               private loadingCtrl: LoadingController,
-              private app: AppVersion,
               private alertCtrl: AlertController) {
     this.presentLoading();
   }
@@ -44,6 +42,7 @@ export class AdminPage {
       this.userName = snapshot.val().name;
       this.school = snapshot.val().school;
       this.classNo = snapshot.val().classNo;
+      this.isClassAdmin = snapshot.val().isClassAdmin;
     });
 
     this.eventsProvider.getEvents(this.school, this.classNo).endAt('date')
@@ -92,13 +91,33 @@ export class AdminPage {
     this.eventsProvider.hideEvent(this.school, this.classNo, event.id);
   }
 
+  deleteEvent(event) {
+    let alert = this.alertCtrl.create({
+      title: 'Achtung!',
+      message: 'Bist Du sicher, dass Du den Test ' + event.name + ' ' + event.date + ' löschen möchtest?',
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          handler: () => {
+            console.log("canceled");
+          }
+        },
+        {
+          text: 'Ja',
+          handler: () => {
+            this.eventsProvider.deleteEvent(this.school, this.classNo, event.id);
+          }
+        }
+      ]
+    });
+    alert.present();
+
+  }
+
   unhideEvent(event) {
     this.eventsProvider.unhideEvent(this.school, this.classNo, event.id);
   }
 
-  getVersionNumber() {
-    this.app.getVersionNumber().then(v => {
-      this.versionNumber = v;
-    });
-  }
+
 }
