@@ -22,7 +22,7 @@ $card-md-margin-right: 0;
 // to match your app's branding. Ionic uses a Sass map of
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
-
+/*
 $colors: (
   // primary:    #F65B28,
   primary:    #54d582,
@@ -34,7 +34,22 @@ $colors: (
   fiery-orange: #AE5A32,
   gold: #FAC309,
 );
+*/
+$colors: (
+  primary: #2e8709,
+  secondary: #199cdb,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222,
+  gold: #FAC309,
+  palm-leaf: #35452D,
+  like: #ff5b58,
+  white: #F7F7F7,
+  grey: #CDCDCD,
+  light-grey: #D3D2D0,
+  fiery-orange: #AE5A32,
 
+);
 
 // App iOS Variables
 // --------------------------------------------------
