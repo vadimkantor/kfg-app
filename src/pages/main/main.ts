@@ -29,6 +29,7 @@ export class MainPage {
               private slideboxProvider: SlideboxProvider,
               private storage: Storage,
               private loadingCtrl: LoadingController) {
+
     this.presentLoading();
   }
 

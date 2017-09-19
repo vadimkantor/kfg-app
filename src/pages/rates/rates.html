@@ -12,8 +12,7 @@
     <ion-item *ngFor="let event of eventList | reverse" text-wrap>
       <ion-card>
         <ion-card-header>
-          <p><strong>{{event?.name}}</strong></p>
-          <p>Datum: <strong>{{event?.date |  date: 'dd.MM.yyyy'}}</strong></p>
+          <strong>{{event?.name}}</strong> vom <strong>{{event?.date |  date: 'dd.MM.yyyy'}}</strong>
           <p>Bewertung bis: <strong>{{event?.dateTo |  date: 'dd.MM.yyyy'}}</strong></p>
           <p *ngIf="isRated(event)===true">Status: <b>bewertet</b>
             <ion-icon name="checkbox-outline"></ion-icon>
