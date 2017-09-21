@@ -16,7 +16,10 @@ export class ProfilePage {
   public classNo: string;
   public school: string;
   public name: string;
+  public isSchoolAdmin: boolean;
+  public checkSum: number;
   public saveForm: FormGroup;
+
 
   constructor(private alertCtrl: AlertController,
               private profileProvider: ProfileProvider,
@@ -39,6 +42,7 @@ export class ProfilePage {
       this.name = userProfileSnapshot.val().name;
       this.school = userProfileSnapshot.val().school;
       this.classNo = userProfileSnapshot.val().classNo;
+      this.isSchoolAdmin = userProfileSnapshot.val().isSchoolAdmin;
     });
 
   }
@@ -61,5 +65,10 @@ export class ProfilePage {
     });
   }
 
+  showCheckSum() {
+    this.checkSum = ChecksumValidator.getChecksum(
+      this.saveForm.value.school.toUpperCase(),
+      this.saveForm.value.classNo.toUpperCase());
+  }
 }
 

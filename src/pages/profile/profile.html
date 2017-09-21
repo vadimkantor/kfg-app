@@ -7,7 +7,6 @@
 <ion-content padding>
 
   <form [formGroup]="saveForm" (submit)="saveUser()" novalidate>
-
     <ion-item>
       <ion-label stacked>Name</ion-label>
       <ion-input formControlName="name" type="text" [value]="name">
@@ -15,7 +14,7 @@
     </ion-item>
     <ion-item>
       <ion-label stacked>Schule</ion-label>
-      <ion-input formControlName="school" type="text" [value]="school">
+      <ion-input formControlName="school" type="text" [value]="school" >
       </ion-input>
     </ion-item>
     <ion-item>
@@ -23,11 +22,9 @@
       <ion-input formControlName="classNo" type="text" [value]="classNo" >
       </ion-input>
     </ion-item>
-
     <ion-item>
       <ion-icon *ngIf="this.saveForm.valid  && saveForm.controls.checksum.dirty" name="checkmark" item-end></ion-icon>
       <ion-label stacked>Prüfzahl</ion-label>
-
       <ion-input formControlName="checksum" type="text" placeholder="123"
                  [class.invalid]="!saveForm.controls.checksum.valid && saveForm.controls.checksum.dirty">
       </ion-input>
@@ -41,6 +38,9 @@
       Speichern
     </button>
   </form>
+
+  <button *ngIf="isSchoolAdmin" ion-button color="red" (click)="showCheckSum()">Prüfzahl generieren</button>
+  <ion-note>{{checkSum}}</ion-note>
 </ion-content>
 
 

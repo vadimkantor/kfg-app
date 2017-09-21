@@ -5,6 +5,7 @@ import {RatesPage} from '../rates/rates';
 import {AuthProvider} from '../../providers/auth/auth';
 import {LoadingController, AlertController} from 'ionic-angular';
 
+
 @IonicPage({
   name: 'rate',
   segment: 'rate/:eventId'
