@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
-import { AlertController, Platform } from 'ionic-angular';
+import {AlertController, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {LoginPage} from '../pages/login/login';
 import {MainPage} from "../pages/main/main";
 import {Auth} from '@ionic/cloud-angular';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import firebase from 'firebase';
+
+declare var FCMPlugin;
 
 @Component({
   templateUrl: 'app.html'
@@ -18,9 +19,7 @@ export class MyApp {
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public auth: Auth,
-              public push: Push,
-              public alertCtrl: AlertController
-              ) {
+              public alertCtrl: AlertController) {
 
     firebase.initializeApp({
       apiKey: "AIzaSyDHm8_PhwCJKfmvuEFouVU-PSLEoS-0egw",
@@ -45,57 +44,38 @@ export class MyApp {
   }
 
   initPushNotification() {
-    if (!this.platform.is('cordova')) {
+    if (this.platform.is('android') || this.platform.is('ios')) {
       console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
       return;
     }
-    const options: PushOptions = {
-      android: {
-        senderID: '152922766282'
+    if (typeof FCMPlugin != 'undefined') {
+      FCMPlugin.getToken(
+        function (token) {
+          console.log(token);
+          alert(token);
+        },
+        function (err) {
+          console.log('error retrieving token: ' + err);
+        }
+      );
+    }
+    FCMPlugin.onNotification(
+      function (data) {
+        if (data.wasTapped) {
+          //Notification was received on device tray and tapped by the user.
+          alert(JSON.stringify(data));
+        } else {
+          //Notification was received in foreground. Maybe the user needs to be notified.
+          alert(JSON.stringify(data));
+        }
       },
-      ios: {
-        alert: 'true',
-        badge: false,
-        sound: 'true'
+      function (msg) {
+        console.log('onNotification callback successfully registered: ' + msg);
       },
-      windows: {}
-    };
-    const pushObject: PushObject = this.push.init(options);
-
-    pushObject.on('registration').subscribe((data: any) => {
-      console.log('device token -> ' + data.registrationId);
-      //TODO - send device token to server
-    });
-
-    pushObject.on('notification').subscribe((data: any) => {
-      console.log('message -> ' + data.message);
-      //if user using app and push notification comes
-      if (data.additionalData.foreground) {
-        // if application open, show popup
-        let confirmAlert = this.alertCtrl.create({
-          title: 'School-Advisor: neue Nachricht',
-          message: data.message,
-          buttons: [{
-            text: 'Ignorieren',
-            role: 'cancel'
-          }, {
-            text: 'Anschauen',
-            handler: () => {
-              //TODO: Your logic here
-
-            }
-          }]
-        });
-        confirmAlert.present();
-      } else {
-        //if user NOT using app and push notification comes
-        //TODO: Your logic on click of push notification directly
-
-        console.log('Push notification clicked');
+      function (err) {
+        console.log('Error registering onNotification callback: ' + err);
       }
-    });
-
-    pushObject.on('error').subscribe(error => console.error('Error with Push plugin' + error));
+    );
   }
 
 
