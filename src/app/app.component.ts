@@ -48,17 +48,17 @@ export class MyApp {
       console.warn('Push notifications not initialized. Cordova is not available - Run in physical device');
       return;
     }
-    if (typeof FCMPlugin != 'undefined') {
-      FCMPlugin.getToken(
-        function (token) {
-          console.log(token);
-          alert(token);
-        },
-        function (err) {
-          console.log('error retrieving token: ' + err);
-        }
-      );
-    }
+
+    let fcmCheck = setInterval(() => {
+      if (typeof FCMPlugin != 'undefined') {
+        FCMPlugin.onTokenRefresh(function (token) {
+          //
+          clearInterval(fcmCheck);
+        });
+      }
+    }, 1000);
+
+
     FCMPlugin.onNotification(
       function (data) {
         if (data.wasTapped) {
