@@ -4,7 +4,7 @@ import {RatesProvider} from '../../providers/rates/rates';
 import {RatesPage} from '../rates/rates';
 import {AuthProvider} from '../../providers/auth/auth';
 import {LoadingController, AlertController} from 'ionic-angular';
-
+import {TeachersProvider} from "../../providers/teachers/teachers";
 
 @IonicPage({
   name: 'rate',
@@ -19,6 +19,7 @@ export class RatePage {
   private eventId: string = '';
   private eventName: string = '';
   private eventDate: string = '';
+  private eventTeacherCode: string = '';
   private eventReadOnly: boolean;
   private criteriaWithRates: Array<any>;
   private currentRates: Array<any>;
@@ -29,6 +30,7 @@ export class RatePage {
   constructor(private navCtrl: NavController,
               private navParams: NavParams,
               private auth: AuthProvider,
+              private teachersProvider: TeachersProvider,
               private ratesProvider: RatesProvider,
               private loadingCtrl: LoadingController,
               private alertCtrl: AlertController) {
@@ -37,6 +39,7 @@ export class RatePage {
     this.eventDate = this.navParams.get("eventDate");
     this.eventName = this.navParams.get("eventName");
     this.eventReadOnly = this.navParams.get("eventReadOnly");
+    this.eventTeacherCode = this.navParams.get("eventTeacherCode");
     this.presentLoading();
   }
 
@@ -59,6 +62,7 @@ export class RatePage {
 
     this.currentRates = [];
     this.criteriaWithRates = [];
+
 
     this.ratesProvider.getCriteria(this.school).on('value', criteriaSnapshot => {
 
@@ -119,23 +123,24 @@ export class RatePage {
 
     for (let i = 0; i < this.criteriaWithRates.length; i++) {
       let curRate = 0;
+
       let count = 0;
-      if (typeof this.currentRates[i] === 'undefined') {
-        curRate = this.criteriaWithRates[i].rate;
-      } else {
+      if (typeof this.currentRates[i] !== 'undefined') {
         curRate = this.currentRates[i].rate;
         count = this.currentRates[i].count;
       }
       this.currentRates[i] = this.criteriaWithRates[i];
-      this.currentRates[i].rate = ((curRate + this.criteriaWithRates[i].rate) / 2.0);
+      this.currentRates[i].rate = curRate + this.criteriaWithRates[i].rate;
       this.currentRates[i].count = count + 1;
     }
+
 
     this.ratesProvider.saveCurrentRates(
       this.school,
       this.classNo,
       this.eventId,
-      this.criteriaWithRates);
+      this.currentRates,
+      this.eventTeacherCode);
 
     this.navCtrl.push(RatesPage);
   }

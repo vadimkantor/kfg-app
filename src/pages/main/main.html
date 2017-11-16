@@ -48,6 +48,10 @@
         <ion-icon name="list-box"></ion-icon>
         Mein Profil
       </button>
+      <button ion-item (click)="goToSVNews()">
+        <ion-icon name="paper"></ion-icon>
+        SV News
+      </button>
       <button *ngIf="isUserClassAdmin()===true || isUserSchoolAdmin()===true" ion-item (click)="goToAdmin()">
         <ion-icon name="school"></ion-icon>
         Administrieren

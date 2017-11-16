@@ -4,6 +4,7 @@ import {EventsProvider} from '../../providers/events/events';
 import {AuthProvider} from '../../providers/auth/auth';
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {SubjectsProvider} from '../../providers/subjects/subjects';
+import {TeachersProvider} from "../../providers/teachers/teachers";
 
 @IonicPage({
   name: 'create-event'
@@ -18,10 +19,12 @@ export class CreateEventPage {
   private classNo: string = '';
   private school: string = '';
   private subjects: Array<string>;
+  private teachers;
 
   constructor(private navCtrl: NavController,
               private eventsProvider: EventsProvider,
               private subjectsProvider: SubjectsProvider,
+              private teachersProvider: TeachersProvider,
               private auth: AuthProvider,
               private formBuilder: FormBuilder,
               private alertCtrl: AlertController) {
@@ -29,7 +32,8 @@ export class CreateEventPage {
     this.createEventForm = formBuilder.group({
       eventName: ['', Validators.compose([Validators.required])],
       eventDate: ['', Validators.compose([Validators.required])],
-      eventDateTo: ['', Validators.compose([Validators.required])]
+      eventDateTo: ['', Validators.compose([Validators.required])],
+      eventTeacher: ['', Validators.compose([Validators.required])]
     });
   }
 
@@ -50,6 +54,20 @@ export class CreateEventPage {
           return false
         });
       });
+
+    this.teachersProvider.getTeachers(this.school)
+      .on('value', snapshot => {
+        this.teachers = [];
+        snapshot.forEach(snap => {
+          this.teachers.push({
+              code: snap.val().Code,
+              name: snap.val().Name
+            }
+          );
+          return false
+        });
+      });
+
   }
 
   createEvent() {
@@ -59,7 +77,8 @@ export class CreateEventPage {
       this.school,
       this.classNo,
       this.createEventForm.value.eventDate,
-      this.createEventForm.value.eventDateTo).then(() => {
+      this.createEventForm.value.eventDateTo,
+      this.createEventForm.value.eventTeacher).then(() => {
       this.createdSuccessful();
     }).catch(
       err=>this.createdFailed()

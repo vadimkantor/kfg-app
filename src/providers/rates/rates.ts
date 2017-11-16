@@ -33,7 +33,7 @@ export class RatesProvider {
     });
   }
 
-   saveCurrentRates(school: string, classNo: string, eventId: string, rates: Array<any>): firebase.Promise<any> {
+   saveCurrentRates(school: string, classNo: string, eventId: string, rates: Array<any>, teacherCode: string): firebase.Promise<any> {
     let ratesPath = '/schools/' + school + '/rates/' + classNo + '/' + 'current' + '/' + eventId;
     return new Promise((resolve) => {
 
@@ -43,7 +43,8 @@ export class RatesProvider {
           "subject": r.subject,
           "criterion": r.criterion,
           "rate": r.rate,
-          "count": r.count
+          "count": r.count,
+          "teacherCode:" : teacherCode
         });
       });
       return resolve();

@@ -8,8 +8,15 @@
 
   <ion-item>
     <ion-label stacked>Name</ion-label>
-    <ion-select [(ngModel)]="eventName"  placeholder="Name der Klassenarbeit">
+    <ion-select [(ngModel)]="eventSubjectName"  placeholder="Name der Klassenarbeit">
       <ion-option *ngFor="let subject of subjects" [value]="subject">{{subject}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>Lehrer/in</ion-label>
+    <ion-select [(ngModel)]="eventTeacherCode"  placeholder="Leher/in">
+      <ion-option *ngFor="let teacher of teachers" [value]="teacherCode">{{teacher.code}}</ion-option>
     </ion-select>
   </ion-item>
 
@@ -25,7 +32,7 @@
     </ion-datetime>
   </ion-item>
 
-  <button ion-button block (click)="changeEvent(eventName, eventDate, eventDateTo)">
+  <button ion-button block (click)="changeEvent(eventSubjectName, eventDate, eventDateTo, eventTeacherCode)">
     Speichern
   </button>
 </ion-content>

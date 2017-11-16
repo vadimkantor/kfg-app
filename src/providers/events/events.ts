@@ -4,11 +4,12 @@ import firebase from 'firebase';
 @Injectable()
 export class EventsProvider {
 
-   createEvent(name: string, school: string, classNo: string, date: string, dateTo: string): firebase.Promise<any>{
+   createEvent(name: string, school: string, classNo: string, date: string, dateTo: string, teacherCode: string): firebase.Promise<any>{
     let newEvent={
       "name":name,
       "date":date,
       "dateTo": dateTo,
+      "teacherCode": teacherCode,
       "hidden": false,
       "sortid": '-' + date
     };
@@ -17,13 +18,14 @@ export class EventsProvider {
 
    changeEvent(eventId:string, name: string,
               school: string, classNo: string,
-              date: string, dateTo: string): firebase.Promise<any>{
+              date: string, dateTo: string, teacherCode: string): firebase.Promise<any>{
     return new Promise((resolve) => {
       let ref = firebase.database().ref('/schools/' + school + '/events/' + classNo + '/' + eventId);
       ref.child("name").set(name);
       ref.child("date").set(date);
       ref.child("dateTo").set(dateTo);
       ref.child("sortid").set("-" + date);
+      ref.child("teacherCode").set(teacherCode);
       return resolve();
     });
    }

@@ -8,7 +8,8 @@ import {AuthProvider} from '../../providers/auth/auth';
 import {AdminPage} from "../admin/admin";
 import {SlideboxProvider} from "../../providers/slidebox/slideprovider";
 import {Storage} from '@ionic/storage';
-import { LoadingController } from 'ionic-angular';
+import {LoadingController } from 'ionic-angular';
+import {SvnewsPage} from "../svnews/svnews";
 import {SubstitutionsPage} from "../substitutions/substitutions";
 
 
@@ -84,6 +85,10 @@ export class MainPage {
 
   goToRatesPage() {
     this.navCtrl.push(RatesPage);
+  }
+
+  goToSVNews() {
+    this.navCtrl.push(SvnewsPage);
   }
 
   goToSubstitutionPage(){

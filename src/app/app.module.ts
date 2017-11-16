@@ -26,6 +26,9 @@ import {SlideboxProvider} from '../providers/slidebox/slideprovider';
 import {IonicStorageModule} from '@ionic/storage';
 import {SubstitutionsProvider} from '../providers/substitutions/substitutions';
 import {SubstitutionsPage} from '../pages/substitutions/substitutions';
+import {TeachersProvider } from '../providers/teachers/teachers';
+import {SvnewsPage} from "../pages/svnews/svnews";
+import { SvnewsProvider } from '../providers/svnews/svnews';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -53,7 +56,8 @@ export class AppErrorHandler implements ErrorHandler {
     AdminPage,
     CreateEventPage,
     ChangeEventPage,
-    SubstitutionsPage
+    SubstitutionsPage,
+    SvnewsPage
   ],
   imports: [
     BrowserModule,
@@ -75,7 +79,8 @@ export class AppErrorHandler implements ErrorHandler {
     AdminPage,
     CreateEventPage,
     ChangeEventPage,
-    SubstitutionsPage
+    SubstitutionsPage,
+    SvnewsPage
   ],
   providers: [
     StatusBar,
@@ -88,7 +93,9 @@ export class AppErrorHandler implements ErrorHandler {
     DatePipe,
     SubjectsProvider,
     SlideboxProvider,
-    SubstitutionsProvider
+    SubstitutionsProvider,
+    TeachersProvider,
+    SvnewsProvider
   ]
 })
 export class AppModule {

@@ -56,10 +56,10 @@ export class ResultPage {
       let sum: number = 0;
       snapshot.forEach(snap => {
         i = i + 1;
-        sum = sum + snap.val().rate;
+        sum = sum + snap.val().rate / snap.val().count;
         this.results.push({
             "criterion": snap.val().criterion,
-            "rate": snap.val().rate,
+            "rate": snap.val().rate / snap.val().count,
             "count": snap.val().count
           }
         );

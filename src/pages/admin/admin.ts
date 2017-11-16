@@ -54,7 +54,8 @@ export class AdminPage {
           name: snap.val().name,
           date: snap.val().date,
           dateTo: snap.val().dateTo,
-          hidden: snap.val().hidden
+          hidden: snap.val().hidden,
+          teacherCode: snap.val().teacherCode
         });
         return false
       });
@@ -79,7 +80,8 @@ export class AdminPage {
       'eventId': event.id,
       'eventDate': event.date,
       'eventDateTo': event.dateTo,
-      'eventName': event.name
+      'eventName': event.name,
+      'eventTeacher': event.teacherCode
     });
   }
 

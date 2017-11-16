@@ -3,6 +3,7 @@ import {IonicPage, NavParams, NavController, AlertController} from 'ionic-angula
 import {EventsProvider} from '../../providers/events/events';
 import {AuthProvider} from '../../providers/auth/auth';
 import {SubjectsProvider} from '../../providers/subjects/subjects';
+import {TeachersProvider} from "../../providers/teachers/teachers";
 
 @IonicPage()
 @Component({
@@ -13,14 +14,17 @@ export class ChangeEventPage {
   private classNo: string = '';
   private school: string = '';
   private eventId: string = '';
-  private eventName: string = '';
+  private eventSubjectName: string = '';
   private eventDate: string = '';
   private eventDateTo: string = '';
+  private eventTeacherCode: string = '';
   private subjects: Array<string>;
+  private teachers;
 
   constructor( private navParams: NavParams,
               private eventsProvider: EventsProvider, private auth: AuthProvider,
               private subjectsProvider: SubjectsProvider,
+              private teachersProvider: TeachersProvider,
               private alertCtrl: AlertController) {
 
   }
@@ -33,9 +37,10 @@ export class ChangeEventPage {
     });
 
     this.eventId = this.navParams.get("eventId");
-    this.eventName = this.navParams.get("eventName");
+    this.eventSubjectName = this.navParams.get("eventName");
     this.eventDate = this.navParams.get("eventDate");
     this.eventDateTo = this.navParams.get("eventDateTo");
+    this.eventTeacherCode = this.navParams.get("eventTeacher")
 
     this.subjectsProvider.getSubjects(this.school)
       .on('value', snapshot => {
@@ -48,16 +53,29 @@ export class ChangeEventPage {
         });
       });
 
+    this.teachersProvider.getTeachers(this.school)
+      .on('value', snapshot => {
+        this.teachers = [];
+        snapshot.forEach(snap => {
+          this.teachers.push({
+              code: snap.val().Code,
+              name: snap.val().Name
+            }
+          );
+          return false
+        });
+      });
   }
 
   changeEvent() {
     this.eventsProvider.changeEvent(
       this.eventId,
-      this.eventName,
+      this.eventSubjectName,
       this.school,
       this.classNo,
       this.eventDate,
-      this.eventDateTo).then(() => {
+      this.eventDateTo,
+      this.eventTeacherCode).then(() => {
       let alert = this.alertCtrl.create({
         message: "Klassenarbeit geändert",
         buttons: [

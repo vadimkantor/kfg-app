@@ -44,7 +44,8 @@ export class RatesPage {
               id: snap.key,
               name: snap.val().name,
               date: snap.val().date,
-              dateTo: snap.val().dateTo
+              dateTo: snap.val().dateTo,
+              teacherCode: snap.val().teacherCode
             })
           };
           return false
@@ -67,6 +68,7 @@ export class RatesPage {
       'eventDate': event.date,
       'eventDateTo': event.dateTo,
       'eventName': event.name,
+      'eventTeacherCode': event.teacherCode,
       'eventReadOnly': readOnly
     });
   }
