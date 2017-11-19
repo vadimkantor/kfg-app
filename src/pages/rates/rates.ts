@@ -68,7 +68,6 @@ export class RatesPage {
       'eventDate': event.date,
       'eventDateTo': event.dateTo,
       'eventName': event.name,
-      'eventTeacherCode': event.teacherCode,
       'eventReadOnly': readOnly
     });
   }
