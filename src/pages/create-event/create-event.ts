@@ -60,8 +60,7 @@ export class CreateEventPage {
         this.teachers = [];
         snapshot.forEach(snap => {
           this.teachers.push({
-              code: snap.val().Code,
-              name: snap.val().Name
+              code: snap.val().Code
             }
           );
           return false
