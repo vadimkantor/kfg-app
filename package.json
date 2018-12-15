@@ -61,7 +61,7 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-ionic": {
-                "APP_ID": "5a165360",
+                "APP_ID": "0ba50ed7",
                 "CHANNEL_NAME": "Production",
                 "UPDATE_METHOD": "auto"
             },
