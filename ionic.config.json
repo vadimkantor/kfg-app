@@ -1,8 +1,8 @@
 {
   "name": "schooladvisor",
-  "app_id": "5a165360",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "ionic-angular",
+  "id": "0ba50ed7"
 }
