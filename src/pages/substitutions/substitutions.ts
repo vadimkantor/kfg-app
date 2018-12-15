@@ -26,29 +26,27 @@ export class SubstitutionsPage {
     let school: string = '';
     this.storage.get('classNo').then((classVal) => {
       classNo = classVal;
-      this.storage.get('school').then((schoolVal) => {
-        school = schoolVal;
+      school = "KFG";
 
-        this.substitutionsProvider.getSchoolSubstitutions(school)
-          .on('value', snapshot => {
-            this.substitutions = [];
-            snapshot.forEach(snap => {
-              if (snap.val().Klasse.includes(classNo)) {
-                this.substitutions.push({
-                  Art: snap.val().Art,
-                  Datum: snap.val().Datum,
-                  Klasse: snap.val().Klasse,
-                  Stunde: snap.val().Stunde,
-                  Vertreter: snap.val().Vertreter,
-                  FachNeu: snap.val().FachNeu,
-                  FachAlt: snap.val().FachAlt,
-                  Raum: snap.val().Raum
-                });
-              }
-              return false
-            });
+      this.substitutionsProvider.getSchoolSubstitutions(school)
+        .on('value', snapshot => {
+          this.substitutions = [];
+          snapshot.forEach(snap => {
+            if (snap.val().Klasse.includes(classNo)) {
+              this.substitutions.push({
+                Art: snap.val().Art,
+                Datum: snap.val().Datum,
+                Klasse: snap.val().Klasse,
+                Stunde: snap.val().Stunde,
+                Vertreter: snap.val().Vertreter,
+                FachNeu: snap.val().FachNeu,
+                FachAlt: snap.val().FachAlt,
+                Raum: snap.val().Raum
+              });
+            }
+            return false
           });
-      });
+        });
     });
 
 

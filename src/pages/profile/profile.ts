@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
-import {IonicPage, AlertController} from 'ionic-angular';
-import {ProfileProvider} from '../../providers/profile/profile';
-import {FormGroup, Validators, FormBuilder} from '@angular/forms';
-import {ChecksumValidator} from '../../validators/checksum';
+import {AlertController, IonicPage} from 'ionic-angular';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Storage} from '@ionic/storage';
 
 @IonicPage({
   name: 'profile'
@@ -12,63 +11,48 @@ import {ChecksumValidator} from '../../validators/checksum';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  private userProfile: any;
   public classNo: string;
-  public school: string;
   public name: string;
-  public isSchoolAdmin: boolean;
-  public checkSum: number;
   public saveForm: FormGroup;
 
 
   constructor(private alertCtrl: AlertController,
-              private profileProvider: ProfileProvider,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private storage: Storage) {
+
+    this.name = '';
+    this.classNo = '';
+
+    this.storage.get('name').then((nameValue) => {
+      this.name = nameValue;
+      this.storage.get('classNo').then((classNoValue) => {
+        this.classNo = classNoValue;
+      });
+
+    });
 
     this.saveForm = this.formBuilder.group({
-      name: '',
-      school: '',
-      classNo: '',
-      checksum: ['', Validators.compose([Validators.required])]
-    }, {validator: ChecksumValidator.isValid('school', 'classNo', 'checksum')});
-
-
-  }
-
-  ionViewDidEnter() {
-
-    this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
-      this.userProfile = userProfileSnapshot.val();
-      this.name = userProfileSnapshot.val().name;
-      this.school = userProfileSnapshot.val().school;
-      this.classNo = userProfileSnapshot.val().classNo;
-      this.isSchoolAdmin = userProfileSnapshot.val().isSchoolAdmin;
+      name: this.name,
+      classNo: this.classNo
     });
 
   }
+
 
   saveUser() {
-
-    this.profileProvider.updateProfile(this.saveForm.value.name,
-      this.saveForm.value.school.toUpperCase(),
-      this.saveForm.value.classNo.toUpperCase()).then(() => {
-      let alert = this.alertCtrl.create({
-        message: "Die Daten wurden gespeichert",
-        buttons: [
-          {
-            text: "Ok",
-            role: 'cancel'
-          }
-        ]
-      });
-      alert.present();
+    this.storage.set('name', this.saveForm.value.name);
+    this.storage.set('classNo', this.saveForm.value.classNo);
+    let alert = this.alertCtrl.create({
+      message: this.saveForm.value.name + ", Deine Daten wurden gespeichert",
+      buttons: [
+        {
+          text: "Ok",
+          role: 'cancel'
+        }
+      ]
     });
+    alert.present();
   }
 
-  showCheckSum() {
-    this.checkSum = ChecksumValidator.getChecksum(
-      this.saveForm.value.school.toUpperCase(),
-      this.saveForm.value.classNo.toUpperCase());
-  }
 }
 

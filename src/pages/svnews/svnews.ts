@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {SvnewsProvider} from "../../providers/svnews/svnews";
-import {AuthProvider} from '../../providers/auth/auth';
 
 /**
  * Generated class for the SvnewsPage page.
@@ -18,14 +17,10 @@ import {AuthProvider} from '../../providers/auth/auth';
 export class SvnewsPage {
   private news: Array<any> = [];
   private school:string ='';
-  constructor(private newsProvider: SvnewsProvider, private auth: AuthProvider,) {
+  constructor(private newsProvider: SvnewsProvider) {
   }
 
   ionViewDidLoad() {
-    this.auth.getUserData().on('value', snapshot => {
-      this.school = snapshot.val().school;
-    });
-
     this.newsProvider.getSchoolNews(this.school)
       .on('value', snapshot => {
         this.news = [];

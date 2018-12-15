@@ -13,34 +13,15 @@
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label stacked>Schule</ion-label>
-      <ion-input formControlName="school" type="text" [value]="school" >
-      </ion-input>
-    </ion-item>
-    <ion-item>
       <ion-label stacked>Klasse</ion-label>
-      <ion-input formControlName="classNo" type="text" [value]="classNo" >
+      <ion-input formControlName="classNo" type="text" [value]="classNo">
       </ion-input>
     </ion-item>
-    <ion-item>
-      <ion-icon *ngIf="this.saveForm.valid  && saveForm.controls.checksum.dirty" name="checkmark" item-end></ion-icon>
-      <ion-label stacked>Prüfzahl</ion-label>
-      <ion-input formControlName="checksum" type="text" placeholder="123"
-                 [class.invalid]="!saveForm.controls.checksum.valid && saveForm.controls.checksum.dirty">
-      </ion-input>
-    </ion-item>
-    <ion-item class="error-message"
-              *ngIf="!this.saveForm.valid  && saveForm.controls.checksum.dirty">
-      <p>Prüfzahl ist nicht korrekt.</p>
-    </ion-item>
-
     <button ion-button block type="submit" [disabled]="!saveForm.valid">
       Speichern
     </button>
   </form>
 
-  <button *ngIf="isSchoolAdmin" ion-button color="red" (click)="showCheckSum()">Prüfzahl generieren</button>
-  <ion-note>{{checkSum}}</ion-note>
 </ion-content>
 
 
